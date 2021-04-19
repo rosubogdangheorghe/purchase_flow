@@ -1,0 +1,49 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+        <title>Department Form</title>
+    </head>
+<body>
+
+<div class="container">
+
+    <h2>Supplier add/update form</h2>
+    <form method="post" action="/web/department/save" th:object="${departmentObject}">
+        <div class="form-group">
+            <input type="hidden" name="departmentId" id="departmentId" th:field="*{departmentId}">
+        </div>
+        <div class="form-group">
+            <label class="form-label"  for="departmentCode">Department Code</label>
+            <input class="form-control" type="text" name="departmentCode" id="departmentCode" th:field="*{departmentCode}">
+        </div>
+        <div class="form-group">
+            <label class="form-label"  for="departmentName">Department Name</label>
+            <input class="form-control" type="text" name="departmentName" id="departmentName" th:field="*{departmentName}">
+        </div>
+        <div class="form-group">
+            <label class="form-label"  for="departmentManager">Department Manager</label>
+            <input class="form-control" type="text" name="departmentManager" id="departmentManager" th:field="*{departmentManager}">
+        </div>
+        <div class="form-group">
+            <label class="form-label"  for="email">Email</label>
+            <input class="form-control" type="email" name="email" id="email" th:field="*{email}">
+        </div>
+
+        <button type="submit" class="btn btn-success btn-link">Save Data</button>
+        <button class="btn"><a class="nav-link active"  href="/web/dashboard">Back To Dashboard</a></button>
+        <button class="btn"><a class="nav-link active"  href="/web/department/list">Department List</a></button>
+    </form>
+
+</div>
+
+</body>
+</html>
