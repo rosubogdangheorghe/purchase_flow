@@ -26,6 +26,10 @@ public class CurrencyEntity {
         return currency;
     }
 
+    public void setCurrencyId(Integer currencyId) {
+        this.currencyId = currencyId;
+    }
+
     public void setCurrency(String currency) {
         this.currency = currency;
     }

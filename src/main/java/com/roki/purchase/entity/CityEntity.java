@@ -2,7 +2,6 @@ package com.roki.purchase.entity;
 
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "cities")
@@ -15,14 +14,14 @@ public class CityEntity {
 
     private String city;
 
-//    @OneToMany(mappedBy = "city")
-//    private List<SupplierEntity> supplierList;
-
 
     public Integer getCityId() {
         return cityId;
     }
 
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
 
     public String getCity() {
         return city;
@@ -32,11 +31,4 @@ public class CityEntity {
         this.city = city;
     }
 
-//    public List<SupplierEntity> getSupplierList() {
-//        return supplierList;
-//    }
-//
-//    public void setSupplierList(List<SupplierEntity> supplierList) {
-//        this.supplierList = supplierList;
-//    }
 }

@@ -23,8 +23,6 @@ public class PurchaseHeaderEntity {
 
     private Double receptionFxRate;
 
-    private Boolean isReceived;
-
     @Column(insertable = false,updatable = false)
     private Integer supplierId;
 
@@ -36,6 +34,9 @@ public class PurchaseHeaderEntity {
 
     @Column(insertable = false,updatable = false)
     private Integer departmentId;
+
+    @Column(insertable = false,updatable = false)
+    private Integer userId;
 
     @OneToMany(mappedBy = "purchaseHeader")
     private List<PurchaseLineEntity> purchaseLineList;
@@ -56,8 +57,17 @@ public class PurchaseHeaderEntity {
     @JoinColumn(name = "departmentId")
     private DepartmentEntity department;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity user;
+
+
     public Integer getPurchaseHeaderId() {
         return purchaseHeaderId;
+    }
+
+    public void setPurchaseHeaderId(Integer purchaseHeaderId) {
+        this.purchaseHeaderId = purchaseHeaderId;
     }
 
     public String getPurchaseNumber() {
@@ -100,14 +110,6 @@ public class PurchaseHeaderEntity {
         this.receptionFxRate = receptionFxRate;
     }
 
-    public Boolean getReceived() {
-        return isReceived;
-    }
-
-    public void setReceived(Boolean received) {
-        isReceived = received;
-    }
-
     public List<PurchaseLineEntity> getPurchaseLineList() {
         return purchaseLineList;
     }
@@ -146,5 +148,13 @@ public class PurchaseHeaderEntity {
 
     public void setDepartment(DepartmentEntity department) {
         this.department = department;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

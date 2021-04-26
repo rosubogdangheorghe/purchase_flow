@@ -1,6 +1,6 @@
 package com.roki.purchase.controller.webcontroller;
 
-import com.roki.purchase.dto.ResponseDto;
+import com.roki.purchase.data.ResponseData;
 import com.roki.purchase.entity.SupplierEntity;
 import com.roki.purchase.repository.SupplierRepository;
 import com.roki.purchase.service.SupplierService;
@@ -46,18 +46,16 @@ public class SupplierController {
         ModelAndView modelAndView = new ModelAndView("/dashboard/supplier/suppliers");
         Page<SupplierEntity> paginatedSuppliers = supplierService.findAllByPage(pageNumber,pageSize, DEFAULT_SORT);
         modelAndView.addObject("supplierList",createResponseDto(paginatedSuppliers,pageNumber));
-        System.out.println(modelAndView.toString());
         return modelAndView;
     }
 
-    private ResponseDto createResponseDto(Page<SupplierEntity> supplierPage,Integer pageNumber) {
+    private ResponseData createResponseDto(Page<SupplierEntity> supplierPage, Integer pageNumber) {
         final Map<String,Integer> page = new HashMap<>();
         page.put("currentPage",pageNumber);
         page.put("totalPages",supplierPage.getTotalPages());
         page.put("totalElements",(int) supplierPage.getTotalElements());
-        return ResponseDto.create(supplierPage.getContent(),page);
+        return ResponseData.create(supplierPage.getContent(),page);
     }
-
 
 
 

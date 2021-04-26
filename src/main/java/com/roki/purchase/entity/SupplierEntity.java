@@ -40,14 +40,7 @@ public class SupplierEntity {
 
     @OneToMany(mappedBy = "supplier")
     private List<PurchaseHeaderEntity> purchaseHeaderList;
-
-//    @ManyToOne
-//    @JoinColumn(name = "cityId")
-//    private CityEntity city;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "countryId")
-//    private CountryEntity country;
+    
 
     public Integer getSupplierId() {
         return supplierId;

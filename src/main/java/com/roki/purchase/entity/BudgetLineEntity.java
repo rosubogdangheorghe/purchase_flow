@@ -21,6 +21,9 @@ public class BudgetLineEntity {
         return budgetLineId;
     }
 
+    public void setBudgetLineId(Integer budgetLineId) {
+        this.budgetLineId = budgetLineId;
+    }
 
     public String getBudgetLine() {
         return budgetLine;

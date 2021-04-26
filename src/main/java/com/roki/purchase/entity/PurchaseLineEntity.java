@@ -7,7 +7,7 @@ public class PurchaseLineEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer purchaseBodyId;
+    private Integer purchaseLineId;
 
     private String itemDescription;
 
@@ -17,13 +17,12 @@ public class PurchaseLineEntity {
 
     private Double unitPrice;
 
-    private Boolean isBudget;
+    private Boolean isBudgeted;
 
     private Double receivedQuantity;
 
     private Double receivedPrice;
 
-    private Boolean isReceived;
 
     @Column(insertable = false,updatable = false)
     private Integer budgetLineId;
@@ -39,10 +38,13 @@ public class PurchaseLineEntity {
     @JoinColumn(name = "budgetLineId")
     private BudgetLineEntity budgetLine;
 
-    public Integer getPurchaseBodyId() {
-        return purchaseBodyId;
+    public Integer getPurchaseLineId() {
+        return purchaseLineId;
     }
 
+    public void setPurchaseLineId(Integer purchaseLineId) {
+        this.purchaseLineId = purchaseLineId;
+    }
 
     public String getItemDescription() {
         return itemDescription;
@@ -76,12 +78,12 @@ public class PurchaseLineEntity {
         this.unitPrice = unitPrice;
     }
 
-    public Boolean getBudget() {
-        return isBudget;
+    public Boolean getIsBudgeted() {
+        return isBudgeted;
     }
 
-    public void setBudget(Boolean budget) {
-        isBudget = budget;
+    public void setIsBudgeted(Boolean budget) {
+        isBudgeted = budget;
     }
 
     public Double getReceivedQuantity() {
@@ -98,14 +100,6 @@ public class PurchaseLineEntity {
 
     public void setReceivedPrice(Double receivedPrice) {
         this.receivedPrice = receivedPrice;
-    }
-
-    public Boolean getReceived() {
-        return isReceived;
-    }
-
-    public void setReceived(Boolean received) {
-        isReceived = received;
     }
 
     public PurchaseHeaderEntity getPurchaseHeader() {

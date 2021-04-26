@@ -27,6 +27,25 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<AuthorityEntity> authorityList;
 
+    @OneToMany(mappedBy ="user")
+    private List<PurchaseHeaderEntity> purchaseHeaderList;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public List<PurchaseHeaderEntity> getPurchaseHeaderList() {
+        return purchaseHeaderList;
+    }
+
+    public void setPurchaseHeaderList(List<PurchaseHeaderEntity> purchaseHeaderList) {
+        this.purchaseHeaderList = purchaseHeaderList;
+    }
+
     public String getUsername() {
         return username;
     }
