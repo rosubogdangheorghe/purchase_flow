@@ -48,7 +48,7 @@
                     <td class="align-middle" th:text="${supplier.contactPerson}"></td>
                     <td class="align-middle" th:text="${supplier.email}"></td>
                     <td class="align-middle" th:text="${supplier.getBlocked()}"></td>
-                    <td><a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/supplier/edit/'+supplier.supplierId}}">Edit</a></td>
+                    <td><a class="c" role="button" th:href="@{${'/web/supplier/edit/'+supplier.supplierId}}">Edit</a></td>
                     <td><a class="btn btn-danger btn-sm btn-link align-middle" role="button" th:href="@{${'/web/supplier/block/'+supplier.supplierId}}">Block</a></td>
                     <td><a class="btn btn-success btn-sm btn-link align-middle" role="button" th:href="@{${'/web/supplier/unBlock/'+supplier.supplierId}}">UnBlock</a></td>
                 </tr>
