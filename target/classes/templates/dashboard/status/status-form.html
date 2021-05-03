@@ -1,0 +1,38 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+        <title>Status List</title>
+    </head>
+<body>
+<div class="container">
+    <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
+    <h2>Status add/update</h2>
+    <form class="form-group" method="post" action="/web/status/save" th:object="${statusObject}">
+        <div class="form-group">
+            <input type="hidden" name="statusId" id="statusId" th:field="*{statusId}">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="status">Create Status</label>
+            <input class="form-control" type="text" name="status" id="status" th:field="*{status}"
+            placeholder="in progress, issued, checked, approved, rejected, received, po issued">
+        </div>
+
+            <button type="submit" class="btn btn-success btn-link">Save Data</button>
+            <button class="btn"><a class="nav-link active" href="/web/dashboard">Back to Dashboard</a></button>
+            <button class="btn"><a class="nav-link active" href="/web/status/list">Status List</a></button>
+
+    </form>
+
+</div>
+
+
+</body>
+</html>
