@@ -1,0 +1,42 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    <title>Currency Form</title>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Currency add/update form</h2>
+    <form method="post" action="/web/currency/save" th:object="${currencyObject}">
+        <div class="form-group">
+            <input type="hidden" name="currencyId" id="currencyId" th:field="*{currencyId}">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="currency">Currency</label>
+            <select class="form-control" id="currency" aria-label="Default select Example" th:field="*{currency}">
+                <option th:each="currency:${currencies}" th:value="${currency}" th:text="${currency}"></option>
+            </select>
+
+<!--            <input class="form-control" name="currency" type="text" id="currency" th:field="*{currency}">-->
+        </div>
+
+        <button type="submit" class="btn btn-success btn-link">Save Data</button>
+        <button class="btn"><a class="nav-link active"  href="/web/dashboard">Back To Dashboard</a></button>
+        <button class="btn"><a class="nav-link active"  href="/web/currency/list">Currency List</a></button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

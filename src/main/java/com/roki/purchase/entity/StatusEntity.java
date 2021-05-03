@@ -13,6 +13,8 @@ public class StatusEntity {
 
     private String status;
 
+    private Boolean enable;
+
     @OneToMany (mappedBy = "status")
     private List<PurchaseHeaderEntity> purchaseHeaderList;
 
