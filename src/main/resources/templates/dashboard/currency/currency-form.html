@@ -15,9 +15,9 @@
 <body>
 
 <div class="container">
-
+    <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
     <h2>Currency add/update form</h2>
-    <form method="post" action="/web/currency/save" th:object="${currencyObject}">
+    <form class="form-group" method="post" action="/web/currency/save" th:object="${currencyObject}">
         <div class="form-group">
             <input type="hidden" name="currencyId" id="currencyId" th:field="*{currencyId}">
         </div>
@@ -32,7 +32,7 @@
 
         <button type="submit" class="btn btn-success btn-link">Save Data</button>
         <button class="btn"><a class="nav-link active"  href="/web/dashboard">Back To Dashboard</a></button>
-        <button class="btn"><a class="nav-link active"  href="/web/currency/list">Currency List</a></button>
+        <button class="btn"><a class="nav-link active"  href="/web/currency/list">Currencies List</a></button>
 
     </form>
 

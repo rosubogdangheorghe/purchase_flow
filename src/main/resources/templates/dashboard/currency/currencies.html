@@ -18,6 +18,8 @@
 <body>
 
 <div class="container">
+    <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
+    <h2>Currencies List</h2>
     <div class="table">
         <table class="table table-striped table-hover align-middle">
             <thead>
@@ -36,7 +38,8 @@
             </tbody>
         </table>
 
-        <button class="bi bi-arrow-left-square" ><a class="nav-link-active" href="/web/dashboard">Back to Dashboard</a></button>
+        <button class="btn"><a class="nav-link-active" href="/web/dashboard">Back to Dashboard</a></button>
+        <button class="btn"><a class="nav-link-active" href="/web/currency/add">Add new currency</a></button>
 
 
 
