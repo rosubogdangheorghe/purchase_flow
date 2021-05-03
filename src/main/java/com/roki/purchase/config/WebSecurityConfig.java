@@ -22,7 +22,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.cors();
         http.authorizeRequests().
-                antMatchers("/web/login-form","/webjars/**","/web/login","/css/**","/js/**").permitAll();
+                antMatchers("/web/login-form","/webjars/**","/web/login","/css/**",
+                        "/js/**").permitAll();
+
+//        http.authorizeRequests().antMatchers("/web/dashboard/**").hasAnyAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.formLogin().loginPage("/web/login-form")    //url din methoda de showFormLogin
                 .loginProcessingUrl("/web/login")    //action din formular
@@ -38,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
     @Autowired
     public void globalConfiguration(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder)
             throws Exception{

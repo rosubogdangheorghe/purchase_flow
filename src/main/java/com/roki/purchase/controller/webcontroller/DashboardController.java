@@ -1,14 +1,15 @@
 package com.roki.purchase.controller.webcontroller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class DashBoardController {
+@RequestMapping("/web")
+public class DashboardController {
 
-    @GetMapping("/web/dashboard")
+    @GetMapping("/dashboard")
     public ModelAndView showDashboard() {
         ModelAndView modelAndView = new ModelAndView("/dashboard/dashboard");
         return modelAndView;

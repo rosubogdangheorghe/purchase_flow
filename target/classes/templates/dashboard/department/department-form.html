@@ -15,6 +15,7 @@
 <body>
 
 <div class="container">
+    <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
 
     <h2>Department add/update form</h2>
     <form method="post" action="/web/department/save" th:object="${departmentObject}">

@@ -13,8 +13,9 @@
         <title>Supplier Form</title>
     </head>
 <body>
-    <div class="container">
 
+    <div class="container">
+        <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
         <h2>Supplier add/update form</h2>
         <form method="post" action="/web/supplier/save" th:object="${supplierObject}">
             <div class="form-group">

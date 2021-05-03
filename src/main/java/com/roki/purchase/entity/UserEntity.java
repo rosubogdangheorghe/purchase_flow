@@ -1,6 +1,8 @@
 package com.roki.purchase.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,7 +24,12 @@ public class UserEntity {
 
     private String lastName;
 
+    @Email
     private String email;
+
+    private Date passwordChangeTime;
+
+    private static final long PASSWORD_EXPIRATION_PERIOD = 30L*24L*60L*60L*1000L;
 
     @OneToMany(mappedBy = "user")
     private List<AuthorityEntity> authorityList;
@@ -100,5 +107,47 @@ public class UserEntity {
 
     public void setAuthorityList(List<AuthorityEntity> authorityList) {
         this.authorityList = authorityList;
+    }
+
+    public Date getPasswordChangeTime() {
+        return passwordChangeTime;
+    }
+
+    public void setPasswordChangeTime(Date passwordChangeTime) {
+        this.passwordChangeTime = passwordChangeTime;
+    }
+
+
+    public boolean isCredentialsNonExpired() {
+        if(this.passwordChangeTime == null) {
+            return false;
+        }
+        long currentTime = System.currentTimeMillis();
+        long lastChangedTime = this.passwordChangeTime.getTime();
+        return currentTime < lastChangedTime+PASSWORD_EXPIRATION_PERIOD;
+    }
+
+    public boolean isEnabled() {
+        if(this.enabled) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", passwordChangeTime=" + passwordChangeTime +
+
+                '}';
     }
 }

@@ -5,20 +5,16 @@ import com.roki.purchase.entity.SupplierEntity;
 import com.roki.purchase.repository.SupplierRepository;
 import com.roki.purchase.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
+@RequestMapping("/web")
 public class SupplierController {
 
     @Autowired
@@ -31,14 +27,14 @@ public class SupplierController {
     private static final int DEFAULT_PAGE_SIZE = 5;
     private static final String DEFAULT_SORT ="supplierCode";
 
-    @GetMapping("/web/supplier/list")
+    @GetMapping("/supplier/list")
     public ModelAndView getAllSuppliers() {
         ModelAndView modelAndView = new ModelAndView("redirect:/web/supplier/list/"+DEFAULT_PAGE_NUMBER +"/"+DEFAULT_PAGE_SIZE);
         return modelAndView;
     }
 
 
-    @GetMapping("/web/supplier/list/{page}/{page-size}")
+    @GetMapping("/supplier/list/{page}/{page-size}")
     public ModelAndView getAllSuppliersByPage(
             @PathVariable(name = "page") Integer pageNumber,
             @PathVariable(name = "page-size") Integer pageSize
@@ -57,9 +53,7 @@ public class SupplierController {
         return ResponseData.create(supplierPage.getContent(),page);
     }
 
-
-
-    @GetMapping("/web/supplier/add")
+    @GetMapping("/supplier/add")
     public ModelAndView addSupplier(){
         ModelAndView modelAndView = new ModelAndView("/dashboard/supplier/supplier-form");
         Map<String, String> countryList = getCountryFullList();
@@ -70,7 +64,7 @@ public class SupplierController {
     }
 
 
-    @PostMapping("/web/supplier/save")
+    @PostMapping("/supplier/save")
     public ModelAndView saveSupplier(@ModelAttribute("supplierObject") SupplierEntity supplier){
         ModelAndView modelAndView = new ModelAndView("redirect:/web/supplier/list");
         supplier.setBlocked(false);
@@ -79,7 +73,7 @@ public class SupplierController {
     }
 
 
-    @GetMapping("/web/supplier/edit/{supplierId}")
+    @GetMapping("/supplier/edit/{supplierId}")
     public ModelAndView editSupplier(@PathVariable Integer supplierId) {
         ModelAndView modelAndView = new ModelAndView("/dashboard/supplier/supplier-form");
         modelAndView.addObject("supplierObject",supplierRepository.findById(supplierId).get());
@@ -88,7 +82,7 @@ public class SupplierController {
         return modelAndView;
     }
 
-    @GetMapping("/web/supplier/block/{supplierId}")
+    @GetMapping("/supplier/block/{supplierId}")
     public ModelAndView deleteSupplier(@PathVariable Integer supplierId){
         ModelAndView modelAndView = new ModelAndView("redirect:/web/supplier/list");
         Optional<SupplierEntity> supplier = supplierRepository.findById(supplierId);
@@ -98,7 +92,7 @@ public class SupplierController {
        }
        return modelAndView;
     }
-    @GetMapping("/web/supplier/unBlock/{supplierId}")
+    @GetMapping("/supplier/unBlock/{supplierId}")
     public ModelAndView unDeleteSupplier(@PathVariable Integer supplierId){
         ModelAndView modelAndView = new ModelAndView("redirect:/web/supplier/list");
         Optional<SupplierEntity> supplier = supplierRepository.findById(supplierId);
@@ -108,6 +102,16 @@ public class SupplierController {
         }
         return modelAndView;
     }
+
+    @GetMapping("/supplier/search")
+        public ModelAndView getSupplierByName(@Param("keyword") String keyword){
+            ModelAndView modelAndView = new ModelAndView("/dashboard/supplier/search-list");
+            List<SupplierEntity> supplierEntityList = supplierService.getAllSuppliersByName(keyword);
+            modelAndView.addObject("supplierList",supplierEntityList);
+            modelAndView.addObject("keyword",keyword);
+            return modelAndView;
+        }
+
 
     private Map<String, String> getCountryFullList() {
         Map<String, String> countryList = new HashMap<>();
