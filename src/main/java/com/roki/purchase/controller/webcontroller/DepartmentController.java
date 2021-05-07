@@ -22,7 +22,6 @@ public class DepartmentController {
     public ModelAndView getAllDepartments(){
         ModelAndView modelAndView = new ModelAndView("/dashboard/department/departments");
         modelAndView.addObject("departmentList",departmentRepository.findAll());
-        System.out.println(modelAndView.toString());
         return modelAndView;
     }
 

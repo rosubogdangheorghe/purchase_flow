@@ -41,4 +41,5 @@ public class CurrencyEntity {
     public void setPurchaseHeaderList(List<PurchaseHeaderEntity> purchaseHeaderList) {
         this.purchaseHeaderList = purchaseHeaderList;
     }
+
 }

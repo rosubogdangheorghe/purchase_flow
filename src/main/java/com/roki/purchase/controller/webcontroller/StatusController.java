@@ -31,6 +31,7 @@ public class StatusController {
     @PostMapping("/status/save")
     public ModelAndView saveStatus(@ModelAttribute("statusObject")StatusEntity status){
         ModelAndView modelAndView = new ModelAndView("redirect:/web/status/list");
+        status.setEnable(true);
         statusRepository.save(status);
         return modelAndView;
     }

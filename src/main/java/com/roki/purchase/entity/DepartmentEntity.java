@@ -1,7 +1,6 @@
 package com.roki.purchase.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
@@ -18,7 +17,7 @@ public class DepartmentEntity {
 
     private String departmentManager;
 
-    @Email
+
     private String email;
 
     @OneToMany(mappedBy = "department")

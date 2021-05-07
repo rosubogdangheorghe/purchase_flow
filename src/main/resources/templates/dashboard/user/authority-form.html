@@ -1,0 +1,61 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    <title>User Form</title>
+  </head>
+<body>
+
+<div class="container">
+  <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
+  <h2>Authority add/update form</h2>
+
+  <form class="form-group" method="post" action="/web/authority/save" th:object="${authorityObject}">
+    <div class="form-group">
+      <label for="authorityId">Authority Id</label>
+      <input class="form-control" type="text" name="authorityId" id="authorityId"  th:field="*{authorityId}" readonly="readonly">
+    </div>
+    <div class="form-group">
+      <label for="userId">User Id</label>
+      <input class="form-control" type="text" name="userId" id="userId" th:value="${userObject.userId}" disabled>
+    </div>
+    <div class="form-group">
+      <label class="form-label"  for="username">Username</label>
+      <input class="form-control" type="text" name="username" id="username"
+             th:field="*{username}" readonly="readonly">
+    </div>
+    <div class="form-group">
+      <label class="form-label"  for="firstName">First Name</label>
+      <input class="form-control" type="text" name="firstName" id="firstName" th:value="${userObject.firstName}" disabled>
+    </div>
+    <div class="form-group">
+      <label class="form-label"  for="lastName">Last Name</label>
+      <input class="form-control" type="text" name="lastName" id="lastName" th:value="${userObject.lastName}" disabled>
+    </div>
+    <div class="form-group">
+      <label class="form-label"  for="email">Email</label>
+      <input class="form-control" type="email" name="email" id="email" th:value="${userObject.email}" disabled>
+    </div>
+
+    <div class="form-group">
+      <label for="authority">Authority</label>
+      <select class="form-control" id="authority" aria-label="Default select Example" th:field="*{authority}">
+        <option th:each="auth:${authorityList}" th:value="${auth}" th:text="${auth}"></option>
+      </select>
+      </div>
+    <button type="submit" class="btn btn-success btn-link">Save Data</button>
+    <button class="btn"><a class="nav-link active"  href="/web/dashboard">Back To Dashboard</a></button>
+    <button class="btn"><a class="nav-link active"  href="/web/user/list">User List</a></button>
+  </form>
+
+</div>
+</body>
+</html>

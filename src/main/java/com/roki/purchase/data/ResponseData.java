@@ -31,7 +31,7 @@ public class ResponseData {
 
     @Override
     public String toString() {
-        return "ResponseDto{" +
+        return "ResponseData{" +
                 "suppliers=" + suppliers +
                 ", page=" + page +
                 '}';

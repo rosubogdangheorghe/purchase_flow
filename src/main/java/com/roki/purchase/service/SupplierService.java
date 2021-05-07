@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SupplierService {
 
@@ -21,4 +23,11 @@ public class SupplierService {
         return pagedResult;
     }
 
+    public List<SupplierEntity> getAllSuppliersByName(String supplierName) {
+        if(supplierName != null) {
+            List<SupplierEntity> suppliersByName = supplierRepository.findAllBySupplierNameContaining(supplierName);
+            return suppliersByName;
+        }
+        return supplierRepository.findAll();
+    }
 }

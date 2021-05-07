@@ -1,7 +1,6 @@
 package com.roki.purchase.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "authorities")
@@ -49,5 +48,10 @@ public class AuthorityEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return  authority;
     }
 }

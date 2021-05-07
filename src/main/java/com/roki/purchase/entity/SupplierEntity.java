@@ -1,7 +1,6 @@
 package com.roki.purchase.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
@@ -30,7 +29,7 @@ public class SupplierEntity {
 
     private String country;
 
-    @Email
+
     private String email;
 
     private String contactPerson;

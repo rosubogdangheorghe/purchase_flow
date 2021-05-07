@@ -37,4 +37,16 @@ public class StatusEntity {
     public void setPurchaseHeaderList(List<PurchaseHeaderEntity> purchaseHeaderList) {
         this.purchaseHeaderList = purchaseHeaderList;
     }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
 }
