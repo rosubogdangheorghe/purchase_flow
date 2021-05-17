@@ -2,7 +2,13 @@
 .card {
     padding: 5px;
     margin: 5px;
+    display: inline-block;
+    width: 22rem;
 }
 body {
     background: aquamarine;
 }
+
+/*#purchaseLineNumber {*/
+/*    display: none;*/
+/*}*/

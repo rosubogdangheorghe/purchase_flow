@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+
+import static java.lang.Integer.parseInt;
 
 @Controller
 @RequestMapping("/web")
@@ -24,7 +27,7 @@ public class SupplierController {
     private SupplierService supplierService;
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
-    private static final int DEFAULT_PAGE_SIZE = 5;
+    private static final int DEFAULT_PAGE_SIZE = 10;
     private static final String DEFAULT_SORT ="supplierCode";
 
     @GetMapping("/supplier/list")
@@ -58,17 +61,35 @@ public class SupplierController {
         ModelAndView modelAndView = new ModelAndView("/dashboard/supplier/supplier-form");
         Map<String, String> countryList = getCountryFullList();
         modelAndView.addObject("countryList",countryList);
-        modelAndView.addObject("supplierObject",new SupplierEntity());
 
+        SupplierEntity lastAddedSupplier = supplierRepository.findTopByOrderBySupplierIdDesc();
+        Integer lastAddedSupplierCode = lastAddedSupplier.getSupplierCode();
+        modelAndView.addObject("supplierCode",lastAddedSupplierCode+1);
+        modelAndView.addObject("supplierObject",new SupplierEntity());
         return modelAndView;
     }
 
-
     @PostMapping("/supplier/save")
-    public ModelAndView saveSupplier(@ModelAttribute("supplierObject") SupplierEntity supplier){
+    public ModelAndView saveSupplier(@ModelAttribute("supplierObject") SupplierEntity supplier, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("redirect:/web/supplier/list");
         supplier.setBlocked(false);
-        supplierRepository.save(supplier);
+        Integer supplierCode = parseInt(request.getParameter("supplierCode"));
+
+        supplier.setSupplierCode(supplierCode);
+        String vatCode = request.getParameter("vatCode");
+        supplier.setVatCode(vatCode.toUpperCase());
+        SupplierEntity registeredSupplier = supplierRepository.findByVatCode(vatCode);
+
+        if (registeredSupplier !=null && supplier.getSupplierId() == null) {
+            modelAndView.setViewName("/dashboard/supplier/supplier-form");
+            modelAndView.addObject("supplierCode",supplier.getSupplierCode());
+            modelAndView.addObject("message", "There is a supplier with this VAT code in database.");
+            Map<String, String> countryList = getCountryFullList();
+            modelAndView.addObject("countryList",countryList);
+
+        } else {
+            supplierRepository.save(supplier);
+        }
         return modelAndView;
     }
 
@@ -76,9 +97,12 @@ public class SupplierController {
     @GetMapping("/supplier/edit/{supplierId}")
     public ModelAndView editSupplier(@PathVariable Integer supplierId) {
         ModelAndView modelAndView = new ModelAndView("/dashboard/supplier/supplier-form");
-        modelAndView.addObject("supplierObject",supplierRepository.findById(supplierId).get());
+        SupplierEntity lastAddedSupplier = supplierRepository.findById(supplierId).get();
+        modelAndView.addObject("supplierObject",lastAddedSupplier);
+        modelAndView.addObject("supplierCode",lastAddedSupplier.getSupplierCode());
         Map<String, String> countryList = getCountryFullList();
         modelAndView.addObject("countryList",countryList);
+
         return modelAndView;
     }
 
@@ -122,4 +146,5 @@ public class SupplierController {
         }
         return countryList;
     }
+
 }

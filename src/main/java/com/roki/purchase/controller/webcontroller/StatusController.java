@@ -15,7 +15,7 @@ public class StatusController {
     private StatusRepository statusRepository;
 
     @GetMapping("/status/list")
-    public ModelAndView getStatusList() {
+    public ModelAndView getAllStatuses() {
         ModelAndView modelAndView = new ModelAndView("/dashboard/status/statuses");
         modelAndView.addObject("statusList",statusRepository.findAll());
         return modelAndView;
@@ -36,7 +36,7 @@ public class StatusController {
         return modelAndView;
     }
     @GetMapping("status/edit/{statusId}")
-    public ModelAndView editStatusById(@PathVariable Integer statusId){
+    public ModelAndView editStatus(@PathVariable Integer statusId){
         ModelAndView modelAndView = new ModelAndView("/dashboard/status/status-form");
         modelAndView.addObject("statusObject",statusRepository.findById(statusId).get());
         return modelAndView;

@@ -1,0 +1,96 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+        <title>Purchase Header Form</title>
+    </head>
+<body>
+
+    <div class="container">
+        <div th:insert="/main-page::main-page-menu"></div>
+        <h2>Purchase requisition header</h2>
+            <form class="form-group" method="post" action="/web/purchase-header/save" th:object="${purchaseHeaderObject}">
+                <div class="form-group">
+                    <input type="hidden" name="supplierId" id="supplierId" th:field="*{purchaseHeaderId}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"  for="purchaseNumber">Purchase Request Number</label>
+                    <input class="form-control" type="text" name="purchaseNumber" id="purchaseNumber" th:field="*{purchaseNumber}" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"  for="purchaseDate">Purchase date</label>
+                    <input class="form-control" type="date"
+                           name="purchaseDate" id="purchaseDate" th:field="*{purchaseDate}">
+                </div>
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label"  for="receptionDate">Reception date</label>-->
+<!--                    <input class="form-control" type="date" name="receptionDate" id="receptionDate" th:field="*{receptionDate}" disabled>-->
+<!--                </div>-->
+                <div class="form-group">
+                    <label class="form-label"  for="purchaseFxRate">Purchase Fx Rate</label>
+                    <input class="form-control" type="number"  name="purchaseFxRate" id="purchaseFxRate" th:field="*{purchaseFxRate}">
+                </div>
+<!--                <div class="form-group">-->
+<!--                    <label class="form-label"  for="receptionFxRate">Reception Fx Rate</label>-->
+<!--                    <input class="form-control" type="number"  name="receptionFxRate" id="receptionFxRate" th:field="*{receptionFxRate}" disabled>-->
+<!--                </div>-->
+
+                <div class="form-group">
+                    <label for="supplier">Supplier</label>
+                    <select class="form-control" id="supplier" th:field="*{supplier}">
+
+                        <option th:each="supplier:${suppliersList}" th:value="${supplier.supplierId}" th:text="${supplier.supplierCode}+'-'+${supplier.supplierName}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select class="form-control" id="department" th:field="*{department}">
+                        <option th:each="department:${departmentsList}" th:value="${department.departmentId}" th:text="${department.departmentCode} + '-'+${department.departmentName}"></option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label"  for="user">Initiator</label>
+                    <select class="form-control" id="user" th:field="*{user}">
+
+                        <option th:value="${userEntity.userId}" th:text="${userEntity.firstName} + ' ' + ${userEntity.lastName}"></option>
+                    </select>
+<!--                    <input class="form-control" type="text" name="username" id="username" th:text="${user.username}"-->
+<!--                           th:value="${user.userId}" readonly="readonly">-->
+
+                </div>
+                <div class="form-group">
+                    <label for="department">Currency</label>
+                    <select class="form-control" id="currency" th:field="*{currency}">
+                        <option th:each="currency:${currenciesList}" th:value="${currency.currencyId}" th:text="${currency.currency}"></option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" id="status" th:field="*{status}">
+                        <option th:each="status:${statusesList}" th:value="${status.statusId}" th:text="${status.status}"></option>
+                    </select>
+
+                </div>
+
+
+                <button type="submit" class="btn btn-success btn-link">Save Data</button>
+                <button class="btn"><a class="nav-link-active" href="/web/main-page">Back To Main Page</a></button>
+                <button class="btn"><a class="nav-link-active" href="/web/purchase-header/in-progress-list">In progress PR list</a></button>
+                <button class="btn"><a class="nav-link-active" href="/web/purchase-header/issued-list">Issued PR list</a></button>
+             </form>
+
+    </div>
+</body>
+</html>

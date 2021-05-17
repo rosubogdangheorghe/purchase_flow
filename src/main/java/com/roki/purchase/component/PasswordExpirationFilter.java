@@ -57,8 +57,6 @@ public class PasswordExpirationFilter implements Filter {
 
     private void showChangePasswordPage(ServletResponse response,
                                         HttpServletRequest httpRequest, UserEntity userEntity) throws IOException {
-//        System.out.println("User: " + userEntity.getUsername() + " - Password Expired:");
-
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String redirectURL = httpRequest.getContextPath() + "/web/password/change_password";
         httpResponse.sendRedirect(redirectURL);

@@ -1,8 +1,10 @@
 package com.roki.purchase.entity;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -15,9 +17,11 @@ public class PurchaseHeaderEntity {
 
     private String purchaseNumber;
 
-    private Date purchaseDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate purchaseDate;
 
-    private Date receptionDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate receptionDate;
 
     private Double purchaseFxRate;
 
@@ -38,7 +42,7 @@ public class PurchaseHeaderEntity {
     @Column(insertable = false,updatable = false)
     private Integer userId;
 
-    @OneToMany(mappedBy = "purchaseHeader")
+    @OneToMany(mappedBy = "purchaseHeader",orphanRemoval = true,cascade = CascadeType.ALL)
     private List<PurchaseLineEntity> purchaseLineList;
 
     @ManyToOne
@@ -78,19 +82,19 @@ public class PurchaseHeaderEntity {
         this.purchaseNumber = purchaseNumber;
     }
 
-    public Date getPurchaseDate() {
+    public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(Date purchaseDate) {
+    public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
-    public Date getReceptionDate() {
+    public LocalDate getReceptionDate() {
         return receptionDate;
     }
 
-    public void setReceptionDate(Date receptionDate) {
+    public void setReceptionDate(LocalDate receptionDate) {
         this.receptionDate = receptionDate;
     }
 
@@ -157,4 +161,6 @@ public class PurchaseHeaderEntity {
     public void setUser(UserEntity user) {
         this.user = user;
     }
+
+
 }

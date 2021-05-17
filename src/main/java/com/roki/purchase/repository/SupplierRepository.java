@@ -13,4 +13,11 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity,Integer
 
 
     List<SupplierEntity> findAllBySupplierNameContaining(String supplierCode);
+
+    SupplierEntity findByVatCode(String vatCode);
+
+    SupplierEntity findTopByOrderBySupplierIdDesc();
+
+    List<SupplierEntity> findAllByIsBlockedIsFalse();
 }
+

@@ -139,8 +139,9 @@ public class UserController {
 
     @PostMapping("/authority/save")
     public ModelAndView saveAuthority(@ModelAttribute("authorityObject") AuthorityEntity authority) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/web/user/list");
         UserEntity userEntity = userRepository.findByUsername(authority.getUsername());
+        ModelAndView modelAndView = new ModelAndView("redirect:/web/user/list/"+userEntity.getUserId());
+
         authority.setUser(userEntity);
         authority = authorityRepository.save(authority);
         String action = "added to";
@@ -150,9 +151,10 @@ public class UserController {
     }
     @GetMapping("/authority/delete/{authorityId}")
     public ModelAndView deleteAuthority(@PathVariable Integer authorityId){
-        ModelAndView modelAndView = new ModelAndView("redirect:/web/user/list");
         AuthorityEntity authority = authorityRepository.findById(authorityId).get();
         UserEntity userEntity = userRepository.findByUsername(authority.getUsername());
+        ModelAndView modelAndView = new ModelAndView("redirect:/web/user/list/"+userEntity.getUserId());
+
         authorityRepository.deleteById(authorityId);
         String action = "deleted from";
         emailBusinessService.userAuthorityChange(authority.getUsername(), authority.getAuthority(), userEntity.getEmail(),action,userEntity.getAuthorityList());

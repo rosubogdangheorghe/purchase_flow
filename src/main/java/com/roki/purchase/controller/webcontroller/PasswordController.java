@@ -1,6 +1,5 @@
 package com.roki.purchase.controller.webcontroller;
 
-import com.roki.purchase.component.PasswordExpirationFilter;
 import com.roki.purchase.entity.UserEntity;
 import com.roki.purchase.repository.UserRepository;
 import com.roki.purchase.service.EmailBusinessService;
@@ -95,7 +94,7 @@ public class PasswordController {
     @PostMapping("/password/change_password")
     public String processChangePassword(Model model, HttpServletRequest request,
                                         HttpServletResponse response, RedirectAttributes attributes) throws ServletException {
-        Optional<User> user = PasswordExpirationFilter.getLoggedInUser();
+        Optional<User> user = userService.getLoggedInUser();
         if(user.isPresent()) {
             UserEntity userEntity = userRepository.findByUsername(user.get().getUsername());
             String oldPassword = request.getParameter("oldPassword");

@@ -17,35 +17,32 @@
 
 <body>
 
-<div class="container">
-    <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
-    <h2>Currencies List</h2>
-    <div class="table">
-        <table class="table table-striped table-hover align-middle">
-            <thead>
-            <tr>
-                <th class="align-middle" scope="col">Id</th>
-                <th class="align-middle" scope="col">Currency</th>
-                <th class="align-middle" scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="currency:${currencyList}">
-                <td class="align-middle" scope="row" th:text="${currency.currencyId}"></td>
-                <td class="align-middle" scope="row" th:text="${currency.currency}"></td>
-                <td><a class="btn btn-primary btn-sm btn-link" role="button" th:href="@{${'/web/currency/edit/'+currency.currencyId}}">Edit</a></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="container">
+        <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
+        <h2>Currencies List</h2>
+        <div class="table">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th class="align-middle" scope="col">Id</th>
+                        <th class="align-middle" scope="col">Currency</th>
+                        <th class="align-middle" scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="currency:${currencyList}">
+                        <td class="align-middle" scope="row" th:text="${currency.currencyId}"></td>
+                        <td class="align-middle" scope="row" th:text="${currency.currency}"></td>
+                        <td><a class="btn btn-primary btn-sm btn-link" role="button" th:href="@{${'/web/currency/edit/'+currency.currencyId}}">Edit</a></td>
+                    </tr>
+                </tbody>
+            </table>
+                <button class="btn"><a class="nav-link-active" href="/web/dashboard">Back to Dashboard</a></button>
+                <button class="btn"><a class="nav-link-active" href="/web/currency/add">Add new currency</a></button>
 
-        <button class="btn"><a class="nav-link-active" href="/web/dashboard">Back to Dashboard</a></button>
-        <button class="btn"><a class="nav-link-active" href="/web/currency/add">Add new currency</a></button>
-
-
+        </div>
 
     </div>
-
-</div>
 
 </body>
 </html>
