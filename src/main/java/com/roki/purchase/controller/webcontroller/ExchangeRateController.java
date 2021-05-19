@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -80,15 +79,15 @@ public class ExchangeRateController {
 
 
 
-        for (LTCube.Rate rate:rates) {
-            System.out.println(rate);
-        }
-
-       String currency =  rates.get(10).getCurrency();
-        BigDecimal value = rates.get(10).getValue();
-        System.out.println(currency);
-        System.out.println(value);
-        System.out.println(date);
+//        for (LTCube.Rate rate:rates) {
+//            System.out.println(rate);
+//        }
+//
+//       String currency =  rates.get(10).getCurrency();
+//        BigDecimal value = rates.get(10).getValue();
+//        System.out.println(currency);
+//        System.out.println(value);
+//        System.out.println(date);
 
     }
 
