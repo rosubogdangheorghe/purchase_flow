@@ -1,6 +1,6 @@
 package com.roki.purchase.controller.webcontroller;
 
-import com.roki.purchase.data.ResponseData;
+import com.roki.purchase.data.SuppliersPaginationData;
 import com.roki.purchase.entity.SupplierEntity;
 import com.roki.purchase.repository.SupplierRepository;
 import com.roki.purchase.service.SupplierService;
@@ -48,12 +48,12 @@ public class SupplierController {
         return modelAndView;
     }
 
-    private ResponseData createResponseDto(Page<SupplierEntity> supplierPage, Integer pageNumber) {
+    private SuppliersPaginationData createResponseDto(Page<SupplierEntity> supplierPage, Integer pageNumber) {
         final Map<String,Integer> page = new HashMap<>();
         page.put("currentPage",pageNumber);
         page.put("totalPages",supplierPage.getTotalPages());
         page.put("totalElements",(int) supplierPage.getTotalElements());
-        return ResponseData.create(supplierPage.getContent(),page);
+        return SuppliersPaginationData.create(supplierPage.getContent(),page);
     }
 
     @GetMapping("/supplier/add")

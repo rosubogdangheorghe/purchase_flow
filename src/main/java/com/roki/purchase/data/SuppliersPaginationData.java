@@ -7,18 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResponseData {
+public class SuppliersPaginationData {
 
     private final List<SupplierEntity> suppliers;
     private final Map<String, Integer> page;
 
-    public ResponseData(final List<SupplierEntity> suppliers, final Map<String, Integer> page) {
+    public SuppliersPaginationData(final List<SupplierEntity> suppliers, final Map<String, Integer> page) {
         this.suppliers = new ArrayList<>(suppliers);
         this.page = new HashMap<>(page);
     }
 
-    public static ResponseData create(final List<SupplierEntity> suppliers, final Map<String, Integer> page) {
-        return new ResponseData(suppliers, page);
+    public static SuppliersPaginationData create(final List<SupplierEntity> suppliers, final Map<String, Integer> page) {
+        return new SuppliersPaginationData(suppliers, page);
     }
 
     public List<SupplierEntity> getSuppliers() {
@@ -31,7 +31,7 @@ public class ResponseData {
 
     @Override
     public String toString() {
-        return "ResponseData{" +
+        return "SuppliersPaginationData{" +
                 "suppliers=" + suppliers +
                 ", page=" + page +
                 '}';

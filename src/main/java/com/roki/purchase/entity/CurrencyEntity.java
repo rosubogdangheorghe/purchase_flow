@@ -14,6 +14,10 @@ public class CurrencyEntity {
 
     private String currency;
 
+    @OneToMany(mappedBy = "currency")
+    private List<ExchangeRateEntity> exchangeRates;
+
+
 
     @OneToMany(mappedBy = "currency")
     private List<PurchaseHeaderEntity> purchaseHeaderList;
@@ -40,6 +44,14 @@ public class CurrencyEntity {
 
     public void setPurchaseHeaderList(List<PurchaseHeaderEntity> purchaseHeaderList) {
         this.purchaseHeaderList = purchaseHeaderList;
+    }
+
+    public List<ExchangeRateEntity> getExchangeRates() {
+        return exchangeRates;
+    }
+
+    public void setExchangeRates(List<ExchangeRateEntity> exchangeRates) {
+        this.exchangeRates = exchangeRates;
     }
 
 }

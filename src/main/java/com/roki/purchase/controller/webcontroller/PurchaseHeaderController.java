@@ -138,6 +138,7 @@ public class PurchaseHeaderController {
 
 
     private void getPurchaseHeaderData(ModelAndView modelAndView) {
+
         List<SupplierEntity> suppliersList = supplierRepository.findAllByIsBlockedIsFalse();
         modelAndView.addObject("suppliersList",suppliersList);
 

@@ -120,7 +120,7 @@ public class AccountingController {
         List<PurchaseLineEntity> purchaseLines = purchaseLineRepository.findAllByPurchaseHeaderAndIsBudgetedIsNotNullAndBudgetLineNotNull(purchaseHeader);
 
         if (purchaseLines.isEmpty()) {
-            modelAndView.setViewName("redirect:/web/accounting-purchase-request/" + purchaseHeader.getPurchaseHeaderId());
+            modelAndView.setViewName("redirect:/web/accounting/accounting-purchase-request/" + purchaseHeader.getPurchaseHeaderId());
         } else {
             StatusEntity status = statusRepository.findByStatus("checked");
             purchaseHeader.setStatus(status);
