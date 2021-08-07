@@ -1,0 +1,32 @@
+{
+
+    "PurchaseHeaderEntity" : [
+    {
+      "purchaseHeaderId" : 9,
+      "purchaseNumber":"9-2021-MAY-20",
+      "purchaseDate" : "2021-05-20",
+      "receptionDate":"null",
+      "purchaseFxRate":4.0341,
+     " receptionFxRate":null,
+      "supplierId":4,
+      "currencyId":null,
+      "statusId":2,
+      "departmentId":1,
+      "userId":1,
+      "user": [
+    {
+      "userId":1,
+      "username":
+      "bogdan",
+      "password":
+      "$2a$10$.yPvjtmoDuEhjte49JEnoePruIVX7WZFylKZJZULSRS5UIZFWPvjS",
+      "enabled":true,
+      "firstName": "bogdan",
+      "lastName":"bogdan",
+      "email":"test.rosu.bogdan@gmail.com",
+      "passwordChangeTime" :"2021-08-01 13: 33:12.0"
+    }]
+  }]
+
+}
+

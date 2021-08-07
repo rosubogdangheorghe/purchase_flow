@@ -50,7 +50,7 @@
             <td class="align-middle" th:text="${purchaseHeaderObject.status.status}"></td>
             <td class="align-middle" th:text="${purchaseHeaderObject.supplier.contactPerson}"></td>
             <td><a class="btn btn-danger btn-sm btn-link align-middle" role="button" th:if="${purchaseHeaderObject.status.status.endsWith('progress')}"
-                   th:href="@{${'/web/purchase-header/promote/'+purchaseHeaderObject.purchaseHeaderId}}">Promote</a></td>
+                   th:href="@{${'/web/purchase/purchase-header/promote/'+purchaseHeaderObject.purchaseHeaderId}}">Promote</a></td>
 
         </tbody>
         </table>
@@ -58,7 +58,7 @@
 
 
     <h2> Purchase Requisition Line</h2>
-    <form class="form-group" method="post" action="/web/purchase-line/save" th:object="${purchaseLineObject}">
+    <form class="form-group" method="post" action="/web/purchase/purchase-line/save" th:object="${purchaseLineObject}">
         <div class="form-group">
             <input type="hidden" name="purchaseLineId" id="purchaseLineId" th:field="*{purchaseLineId}">
         </div>

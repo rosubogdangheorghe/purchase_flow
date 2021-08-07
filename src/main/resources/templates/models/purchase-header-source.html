@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="purchase-header-head">
+    <th class="align-middle" scope="col">Id</th>
+    <th class="align-middle" scope="col">Purchase Request Number</th>
+    <th class="align-middle" scope="col">Issue date</th>
+    <th class="align-middle" scope="col"> <a class="btn btn-primary btn-sm btn-link align-content-center" onclick="sortTableBySupplier()">Supplier</a></th>
+    <th class="align-middle" scope="col">Department</th>
+    <th class="align-middle" scope="col">Initiator</th>
+    <th class="align-middle" scope="col">Currency</th>
+    <th class="align-middle" scope="col">FX rate</th>
+    <th class="align-middle" scope="col">Status</th>
+    <th class="align-middle" scope="col">Supplier Contact Person</th>
+</div>
+<div th:fragment="purchase-header-data">
+    <td class="align-middle" scope="row" th:text="${purchaseHeaderObject.purchaseHeaderId}"></td>
+    <td class="align-middle" th:text="${purchaseHeaderObject.purchaseNumber}"></td>
+    <td class="align-middle" th:text="${purchaseHeaderObject.purchaseDate}"></td>
+    <td class="align-middle" th:text="${purchaseHeaderObject.supplier.supplierName}"></td>
+    <td class="align-middle" th:text="${purchaseHeaderObject.department.departmentName}"></td>
+    <td class="align-middle" th:text="${purchaseHeaderObject.user.username}"></td>
+    <td class="align-middle" th:text="${purchaseHeaderObject.currency.getCurrencyName()}"></td>
+    <td class="align-middle" th:text="${#numbers.formatDecimal(purchaseHeaderObject.purchaseFxRate,1,'COMMA',6,'POINT')}"></td>
+    <td class="align-middle" th:text="${purchaseHeaderObject.status.status}"></td>
+    <td class="align-middle" th:text="${purchaseHeaderObject.supplier.contactPerson}"></td>
+</div>
+
+
+</body>
+</html>

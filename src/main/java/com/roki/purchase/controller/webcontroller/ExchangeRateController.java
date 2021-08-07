@@ -2,36 +2,33 @@ package com.roki.purchase.controller.webcontroller;
 
 import com.roki.purchase.currency_exchange.DataSet;
 import com.roki.purchase.currency_exchange.LTCube;
-import com.roki.purchase.entity.CurrencyEntity;
 import com.roki.purchase.entity.ExchangeRateEntity;
-import com.roki.purchase.repository.CurrencyExchangeRepository;
-import com.roki.purchase.repository.CurrencyRepository;
+import com.roki.purchase.repository.ExchangeRateRepository;
 import com.roki.purchase.service.CurrencyExchangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
+@RequestMapping(path = "/web")
 public class ExchangeRateController {
 
-
-    @Autowired
-    private CurrencyExchangeService currencyExchangeService;
 
     @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
-    private CurrencyExchangeRepository currencyExchangeRepository;
+    private ExchangeRateRepository exchangeRateRepository;
 
-    @Autowired
-    private CurrencyRepository currencyRepository;
 
-    @Scheduled(cron = "0 0 1 * * *",zone = "Europe/Istanbul")
+    @Scheduled(cron = "0 0 1 * * *", zone = "Europe/Istanbul")
     public void saveFXRate() {
 
 
@@ -39,58 +36,53 @@ public class ExchangeRateController {
 
         DataSet dataSet = currencyExchangeService.retrieveCurrencyExchange();
         LTCube ltCube = dataSet.getBody().getCube().get(0);
-        List<LTCube.Rate> rates= ltCube.getRate();
-        LocalDate date = LocalDate.of(ltCube.getDate().getYear(),ltCube.getDate().getMonth(),ltCube.getDate().getDay());
+        List<LTCube.Rate> dataBaseRates = ltCube.getRate();
 
+        System.out.println(dataBaseRates);
 
+        for (int i = 0; i < dataBaseRates.size(); i++) {
 
-        ExchangeRateEntity exchangeRateEur = new ExchangeRateEntity();
-        CurrencyEntity eur = currencyRepository.findByCurrency(rates.get(10).getCurrency());
-        exchangeRateEur.setCurrency(eur);
-        exchangeRateEur.setValue(rates.get(10).getValue());
-        exchangeRateEur.setExchangeDate(date);
+            ExchangeRateEntity exchangeRate = exchangeRateRepository.findByCurrencyName(dataBaseRates.get(i).getCurrency());
+//            exchangeRate.setCurrencyName(dataBaseRates.get(i).getCurrency());
 
-        currencyExchangeRepository.save(exchangeRateEur);
+            exchangeRate.setMultiplier(dataBaseRates.get(i).getMultiplier());
 
-        ExchangeRateEntity exchangeRateUsd = new ExchangeRateEntity();
-        CurrencyEntity usd = currencyRepository.findByCurrency(rates.get(28).getCurrency());
-        exchangeRateUsd.setCurrency(usd);
-        exchangeRateUsd.setValue(rates.get(28).getValue());
-        exchangeRateUsd.setExchangeDate(date);
+            exchangeRate.setValue(dataBaseRates.get(i).getValue());
 
-        currencyExchangeRepository.save(exchangeRateUsd);
+            exchangeRateRepository.save(exchangeRate);
+        }
 
+        ExchangeRateEntity exchangeRateRON = exchangeRateRepository.findByCurrencyName("RON");
 
-        ExchangeRateEntity exchangeRateChf = new ExchangeRateEntity();
-        CurrencyEntity chf = currencyRepository.findByCurrency(rates.get(5).getCurrency());
-        exchangeRateChf.setCurrency(chf);
-        exchangeRateChf.setValue(rates.get(5).getValue());
-        exchangeRateChf.setExchangeDate(date);
-
-        currencyExchangeRepository.save(exchangeRateChf);
-
-        ExchangeRateEntity exchangeRateGbp = new ExchangeRateEntity();
-        CurrencyEntity gbp = currencyRepository.findByCurrency(rates.get(11).getCurrency());
-        exchangeRateGbp.setCurrency(gbp);
-        exchangeRateGbp.setValue(rates.get(11).getValue());
-        exchangeRateGbp.setExchangeDate(date);
-
-        currencyExchangeRepository.save(exchangeRateGbp);
-
-
-
-//        for (LTCube.Rate rate:rates) {
-//            System.out.println(rate);
-//        }
-//
-//       String currency =  rates.get(10).getCurrency();
-//        BigDecimal value = rates.get(10).getValue();
-//        System.out.println(currency);
-//        System.out.println(value);
-//        System.out.println(date);
-
+//        exchangeRateRON.setCurrencyName("RON");
+        exchangeRateRON.setMultiplier(null);
+        exchangeRateRON.setValue(BigDecimal.valueOf(1));
+        exchangeRateRepository.save(exchangeRateRON);
     }
 
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping("/currency/list")
+    public ModelAndView getAllCurrency(){
+        ModelAndView modelAndView = new ModelAndView("/dashboard/currency/currencies");
+        modelAndView.addObject(
+                "currencyList",exchangeRateRepository.findAll());
+        return modelAndView;
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PostMapping("/currency/save")
+    public ModelAndView saveCurrency(@ModelAttribute("currencyObject") ExchangeRateEntity currency){
+        ModelAndView modelAndView = new ModelAndView("redirect:/web/currency/list");
+        exchangeRateRepository.save(currency);
+        return modelAndView;
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping("/currency/edit/{currencyId}")
+    public ModelAndView editCurrency(@PathVariable Integer currencyId){
+        ModelAndView modelAndView = new ModelAndView("/dashboard/currency/currency-form");
+        modelAndView.addObject("currencyObject",exchangeRateRepository.findById(currencyId).get());
+        return modelAndView;
+    }
 
 
 }

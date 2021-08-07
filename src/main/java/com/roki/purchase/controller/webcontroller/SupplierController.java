@@ -1,12 +1,13 @@
 package com.roki.purchase.controller.webcontroller;
 
-import com.roki.purchase.data.SuppliersPaginationData;
+import com.roki.purchase.data_pagination.SuppliersPaginationData;
 import com.roki.purchase.entity.SupplierEntity;
 import com.roki.purchase.repository.SupplierRepository;
 import com.roki.purchase.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +19,7 @@ import static java.lang.Integer.parseInt;
 
 @Controller
 @RequestMapping("/web")
+@PreAuthorize("hasAnyAuthority('ADMIN')")
 public class SupplierController {
 
     @Autowired
@@ -27,7 +29,7 @@ public class SupplierController {
     private SupplierService supplierService;
 
     private static final int DEFAULT_PAGE_NUMBER = 1;
-    private static final int DEFAULT_PAGE_SIZE = 10;
+    private static final int DEFAULT_PAGE_SIZE = 5;
     private static final String DEFAULT_SORT ="supplierCode";
 
     @GetMapping("/supplier/list")

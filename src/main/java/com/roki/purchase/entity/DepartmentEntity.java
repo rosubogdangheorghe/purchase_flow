@@ -15,13 +15,14 @@ public class DepartmentEntity {
 
     private String departmentName;
 
-    private String departmentManager;
-
-
-    private String email;
 
     @OneToMany(mappedBy = "department")
     private List<PurchaseHeaderEntity> purchaseHeaderList;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity user;
+
 
     public Integer getDepartmentId() {
         return departmentId;
@@ -55,31 +56,11 @@ public class DepartmentEntity {
         this.purchaseHeaderList = purchaseHeaderList;
     }
 
-    public String getDepartmentManager() {
-        return departmentManager;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setDepartmentManager(String departmentManager) {
-        this.departmentManager = departmentManager;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "DepartmentEntity{" +
-                "departmentId=" + departmentId +
-                ", departmentCode='" + departmentCode + '\'' +
-                ", departmentName='" + departmentName + '\'' +
-                ", departmentManager='" + departmentManager + '\'' +
-                ", email='" + email + '\'' +
-                ", purchaseHeaderList=" + purchaseHeaderList +
-                '}';
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

@@ -3,12 +3,14 @@ package com.roki.purchase.controller.webcontroller;
 import com.roki.purchase.entity.StatusEntity;
 import com.roki.purchase.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(path = "/web")
+@PreAuthorize("hasAnyAuthority('ADMIN')")
 public class StatusController {
 
     @Autowired

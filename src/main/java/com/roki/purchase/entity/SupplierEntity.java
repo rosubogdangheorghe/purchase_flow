@@ -141,21 +141,5 @@ public class SupplierEntity {
         this.country = country;
     }
 
-    @Override
-    public String toString() {
-        return "SupplierEntity{" +
-                "supplierId=" + supplierId +
-                ", supplierCode='" + supplierCode + '\'' +
-                ", supplierName='" + supplierName + '\'' +
-                ", vatCode='" + vatCode + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", county='" + county + '\'' +
-                ", country='" + country + '\'' +
-                ", email='" + email + '\'' +
-                ", contactPerson='" + contactPerson + '\'' +
-                ", isBlocked=" + isBlocked +
-                ", purchaseHeaderList=" + purchaseHeaderList +
-                '}';
-    }
+
 }

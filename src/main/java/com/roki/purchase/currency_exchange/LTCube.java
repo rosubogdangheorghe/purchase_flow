@@ -3,7 +3,6 @@ package com.roki.purchase.currency_exchange;
 import javax.xml.bind.annotation.*;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class LTCube {
         @XmlAttribute(name = "currency",required = true)
         protected String currency;
         @XmlAttribute(name = "multiplier")
-        protected BigInteger multiplier;
+        protected BigDecimal multiplier;
 
 
         public BigDecimal getValue() {
@@ -66,11 +65,11 @@ public class LTCube {
             this.currency = value;
         }
 
-        public BigInteger getMultiplier() {
+        public BigDecimal getMultiplier() {
             return multiplier;
         }
 
-        public void setMultiplier(BigInteger value) {
+        public void setMultiplier(BigDecimal value) {
             this.multiplier = value;
         }
 

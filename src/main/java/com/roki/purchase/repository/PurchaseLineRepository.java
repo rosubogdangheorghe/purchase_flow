@@ -13,4 +13,6 @@ public interface PurchaseLineRepository extends JpaRepository<PurchaseLineEntity
 
     List<PurchaseLineEntity> findAllByPurchaseHeader(PurchaseHeaderEntity purchaseHeaderEntity);
     List<PurchaseLineEntity> findAllByPurchaseHeaderAndIsBudgetedIsNotNullAndBudgetLineNotNull(PurchaseHeaderEntity purchaseHeaderEntity);
+    List<PurchaseLineEntity> findAllByPurchaseHeaderAndReceivedQuantityNotNullAndReceivedPriceNotNull(PurchaseHeaderEntity purchaseHeaderEntity);
+
 }

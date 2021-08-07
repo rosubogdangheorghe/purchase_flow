@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-//@Scheduled
-//@EnableScheduling
 
 @Service
 public class CurrencyExchangeService {
@@ -22,7 +20,7 @@ public class CurrencyExchangeService {
     @Autowired
     public CurrencyExchangeService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        retrieveCurrencyExchange();
+        //retrieveCurrencyExchange();
         LOGGER.info(getClass().getSimpleName() + "created");
 
     }

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
@@ -21,46 +22,26 @@
             <h2 th:if="${not editAndPromoteButtons.booleanValue()}">Approved/Rejected Purchase Requests List</h2>
 
             <div class="table">
-                <table class="table table-striped table-hover align-middle">
+                <table class="table table-striped table-hover align-middle" id="sortTable">
                     <thead>
                     <tr>
-                        <th class="align-middle" scope="col">Id</th>
-                        <th class="align-middle" scope="col">Purchase Request Number</th>
-                        <th class="align-middle" scope="col">Issue date</th>
-                        <th class="align-middle" scope="col">Supplier</th>
-                        <th class="align-middle" scope="col">Department</th>
-                        <th class="align-middle" scope="col">Initiator</th>
-                        <th class="align-middle" scope="col">Currency</th>
-                        <th class="align-middle" scope="col">FX rate</th>
-                        <th class="align-middle" scope="col">Status</th>
-                        <th class="align-middle" scope="col">Supplier Contact Person</th>
+                        <div th:replace="/models/purchase-header-source::purchase-header-head"></div>
                         <th class="align-middle" scope="col" th:if="${editAndPromoteButtons.booleanValue()}">Purchase Request</th>
                         <th class="align-middle" scope="col" colspan="3" th:if="${not editAndPromoteButtons.booleanValue()}">Details</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="purchaseHeader:${purchaseHeadersList}">
-                        <td class="align-middle" scope="row" th:text="${purchaseHeader.purchaseHeaderId}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.purchaseNumber}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.purchaseDate}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.supplier.supplierName}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.department.departmentName}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.user.username}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.currency.currency}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.purchaseFxRate}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.status.status}"></td>
-                        <td class="align-middle" th:text="${purchaseHeader.supplier.contactPerson}"></td>
+                    <tr th:each="purchaseHeaderObject:${purchaseHeadersList}">
+                        <div th:replace="/models/purchase-header-source::purchase-header-data"></div>
 
 
-                        <td th:if="${purchaseHeader.status.status.endsWith('checked')}" class="align-middle">
-                            <a class="btn btn-primary btn-sm btn-link align-middle" th:href="@{${'/web/management/management-purchase-request/'+purchaseHeader.purchaseHeaderId}}">Purchase Request</a></td>
 
-<!--                        <td th:if="${purchaseHeader.status.status.endsWith('issued')}" class="align-middle">-->
-<!--                            <a class="btn btn-success btn-sm btn-link align-middle" role="button" th:href="@{${'/web/accounting/promote/'+purchaseHeader.purchaseHeaderId}}">Promote</a></td>-->
+                        <td th:if="${purchaseHeaderObject.status.status.endsWith('checked')}" class="align-middle">
+                            <a class="btn btn-primary btn-sm btn-link align-middle" th:href="@{${'/web/management/management-purchase-request/'+purchaseHeaderObject.purchaseHeaderId}}">Purchase Request</a></td>
 
-                        <td th:if="${purchaseHeader.status.status.endsWith('approved') or purchaseHeader.status.status.endsWith('rejected')}" class="align-middle">
-                            <a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/management/accounting-purchase-request/'+purchaseHeader.purchaseHeaderId}}">Details</a></td>
+                        <td th:if="${purchaseHeaderObject.status.status.endsWith('approved') or purchaseHeaderObject.status.status.endsWith('rejected')}" class="align-middle">
+                            <a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/management/management-purchase-request/'+purchaseHeaderObject.purchaseHeaderId}}">Details</a></td>
 
 
                     </tr>

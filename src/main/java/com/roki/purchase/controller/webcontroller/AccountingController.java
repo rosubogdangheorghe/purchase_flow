@@ -1,13 +1,13 @@
 package com.roki.purchase.controller.webcontroller;
 
-import com.roki.purchase.entity.BudgetLineEntity;
 import com.roki.purchase.entity.PurchaseHeaderEntity;
 import com.roki.purchase.entity.PurchaseLineEntity;
 import com.roki.purchase.entity.StatusEntity;
-import com.roki.purchase.repository.BudgetLineRepository;
 import com.roki.purchase.repository.PurchaseHeaderRepository;
 import com.roki.purchase.repository.PurchaseLineRepository;
 import com.roki.purchase.repository.StatusRepository;
+import com.roki.purchase.service.DataSupplyService;
+import com.roki.purchase.service.EmailBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +29,12 @@ public class AccountingController {
     @Autowired
     private StatusRepository statusRepository;
 
+
     @Autowired
-    private BudgetLineRepository budgetLineRepository;
+    private DataSupplyService dataSupplyService;
+
+    @Autowired
+    private EmailBusinessService emailBusinessService;
 
 
     @GetMapping("/accounting/issued-list")
@@ -41,7 +45,6 @@ public class AccountingController {
         List<PurchaseHeaderEntity> purchaseHeadersList = purchaseHeaderRepository.findAllByStatusEquals(statusRepository.findByStatus("issued"));
         modelAndView.addObject("purchaseHeadersList", purchaseHeadersList);
         modelAndView.addObject("editAndPromoteButtons", true);
-
 
         return modelAndView;
     }
@@ -59,7 +62,7 @@ public class AccountingController {
     public ModelAndView performAccountingCheck(@PathVariable Integer purchaseHeaderId) {
         ModelAndView modelAndView = new ModelAndView("/purchase/accounting/accounting-purchase-request");
 
-        dataSupplyForPurchaseRequest(purchaseHeaderId, modelAndView);
+        dataSupplyService.dataSupplyForPurchaseRequest(purchaseHeaderId, modelAndView);
 
         modelAndView.addObject("accountingCheckForm", false);
         modelAndView.addObject("purchaseLineObject", new PurchaseLineEntity());
@@ -73,27 +76,11 @@ public class AccountingController {
         ModelAndView modelAndView = new ModelAndView("/purchase/accounting/accounting-purchase-request");
         modelAndView.addObject("accountingCheckForm", true);
 
-        dataSupplyForPurchaseRequest(purchaseHeaderId, modelAndView);
+        dataSupplyService.dataSupplyForPurchaseRequest(purchaseHeaderId, modelAndView);
 
-
-        PurchaseLineEntity purchaseLine = purchaseLineRepository.findById(purchaseLineId).get();
-        modelAndView.addObject("purchaseLineObject", purchaseLine);
-
-        List<BudgetLineEntity> budgetLines = budgetLineRepository.findAll();
-        modelAndView.addObject("budgetLines", budgetLines);
-
+        dataSupplyService.dataSupplyForPurchaseLine(purchaseLineId, modelAndView);
 
         return modelAndView;
-
-    }
-
-
-    private void dataSupplyForPurchaseRequest(@PathVariable Integer purchaseHeaderId, ModelAndView modelAndView) {
-        PurchaseHeaderEntity purchaseHeader = purchaseHeaderRepository.findById(purchaseHeaderId).get();
-        modelAndView.addObject("purchaseHeaderObject", purchaseHeader);
-
-        List<PurchaseLineEntity> purchaseLines = purchaseLineRepository.findAllByPurchaseHeader(purchaseHeader);
-        modelAndView.addObject("purchaseLines", purchaseLines);
 
     }
 
@@ -125,6 +112,16 @@ public class AccountingController {
             StatusEntity status = statusRepository.findByStatus("checked");
             purchaseHeader.setStatus(status);
             purchaseHeaderRepository.save(purchaseHeader);
+
+
+            String to = purchaseHeader.getDepartment().getUser().getEmail();
+            System.out.println(to);
+            String action = statusRepository.findByStatus("approved").getStatus();
+            emailBusinessService.purchaseRequestPromotionToManager(to,purchaseHeader.getPurchaseNumber(),action);
+
+            String emailOfInitiator = purchaseHeader.getUser().getEmail();
+            emailBusinessService.emailInitiatorNotification(emailOfInitiator,purchaseHeader.getPurchaseNumber(), status.getStatus());
+
         }
         return modelAndView;
     }

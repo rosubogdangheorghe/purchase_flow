@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="purchase-line-header">
+    <th class="align-middle" scope="col">Line Number</th>
+    <th class="align-middle" scope="col">Item description</th>
+    <th class="align-middle" scope="col">Unit measure</th>
+    <th class="align-middle" scope="col">Quantity</th>
+    <th class="align-middle" scope="col">Unit Price</th>
+    <th class="align-middle" scope="col">Value in Currency</th>
+    <th class="align-middle" scope="col">Value in RON</th>
+
+
+</div>
+
+<div th:fragment="purchase-line-data">
+
+
+    <td class="align-middle" scope="row"th:text="${index.index+1}"></td>
+<!--    <td class="align-middle" scope="row" th:text="${purchaseLine.purchaseLineId}"></td>-->
+    <td class="align-middle" th:text="${purchaseLine.itemDescription}"></td>
+    <td class="align-middle" th:text="${purchaseLine.unitMeasure}"></td>
+    <td class="align-middle" th:text="${#numbers.formatDecimal(purchaseLine.quantity,1,'COMMA',2,'POINT')}"></td>
+    <td class="align-middle" th:text="${#numbers.formatDecimal(purchaseLine.unitPrice,1,'COMMA',2,'POINT')}"></td>
+    <td class="align-middle"  th:text="${#numbers.formatDecimal(purchaseLine.quantity*purchaseLine.unitPrice,1,'COMMA',2,'POINT')}"></td>
+    <td class="align-middle"  th:text="${#numbers.formatDecimal(purchaseLine.quantity*purchaseLine.unitPrice*purchaseHeaderObject.purchaseFxRate,1,'COMMA',2,'POINT')}"></td>
+
+
+</div>
+</body>
+</html>

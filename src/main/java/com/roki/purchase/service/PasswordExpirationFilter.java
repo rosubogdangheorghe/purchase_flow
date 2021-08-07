@@ -1,4 +1,4 @@
-package com.roki.purchase.component;
+package com.roki.purchase.service;
 
 
 import com.roki.purchase.entity.UserEntity;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@Component
+@Service
 public class PasswordExpirationFilter implements Filter {
 
 
@@ -71,7 +71,5 @@ public class PasswordExpirationFilter implements Filter {
         }
         return Optional.empty();
     }
-
-
 
 }

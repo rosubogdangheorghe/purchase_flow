@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface PurchaseHeaderRepository extends JpaRepository<PurchaseHeaderEntity,Integer> {
 
-    List<PurchaseHeaderEntity> findAllByUserId(Integer userId);
+   List<PurchaseHeaderEntity> findAllByUserId(Integer userId);
     List<PurchaseHeaderEntity> findAllByUserIdAndStatusEquals(Integer userId, StatusEntity status);
 
     PurchaseHeaderEntity findByPurchaseLineList(PurchaseLineEntity purchaseLineEntity);

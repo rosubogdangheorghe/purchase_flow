@@ -4,6 +4,7 @@ package com.roki.purchase.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,9 +24,10 @@ public class PurchaseHeaderEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate receptionDate;
 
-    private Double purchaseFxRate;
+    private BigDecimal purchaseFxRate;
 
-    private Double receptionFxRate;
+    private BigDecimal receptionFxRate;
+
 
     @Column(insertable = false,updatable = false)
     private Integer supplierId;
@@ -42,7 +44,9 @@ public class PurchaseHeaderEntity {
     @Column(insertable = false,updatable = false)
     private Integer userId;
 
-    @OneToMany(mappedBy = "purchaseHeader",orphanRemoval = true,cascade = CascadeType.ALL)
+
+    //    orphanRemoval = true,cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "purchaseHeader")
     private List<PurchaseLineEntity> purchaseLineList;
 
     @ManyToOne
@@ -54,8 +58,8 @@ public class PurchaseHeaderEntity {
     private StatusEntity status;
 
     @ManyToOne
-    @JoinColumn(name = "currencyId")
-    private CurrencyEntity currency;
+    @JoinColumn(name = "exchangeRateId")
+    private ExchangeRateEntity currency;
 
     @ManyToOne
     @JoinColumn(name = "departmentId")
@@ -98,19 +102,19 @@ public class PurchaseHeaderEntity {
         this.receptionDate = receptionDate;
     }
 
-    public Double getPurchaseFxRate() {
+    public BigDecimal getPurchaseFxRate() {
         return purchaseFxRate;
     }
 
-    public void setPurchaseFxRate(Double purchaseFxRate) {
+    public void setPurchaseFxRate(BigDecimal purchaseFxRate) {
         this.purchaseFxRate = purchaseFxRate;
     }
 
-    public Double getReceptionFxRate() {
+    public BigDecimal getReceptionFxRate() {
         return receptionFxRate;
     }
 
-    public void setReceptionFxRate(Double receptionFxRate) {
+    public void setReceptionFxRate(BigDecimal receptionFxRate) {
         this.receptionFxRate = receptionFxRate;
     }
 
@@ -138,11 +142,11 @@ public class PurchaseHeaderEntity {
         this.status = status;
     }
 
-    public CurrencyEntity getCurrency() {
+    public ExchangeRateEntity getCurrency() {
         return currency;
     }
 
-    public void setCurrency(CurrencyEntity currency) {
+    public void setCurrency(ExchangeRateEntity currency) {
         this.currency = currency;
     }
 
@@ -162,5 +166,26 @@ public class PurchaseHeaderEntity {
         this.user = user;
     }
 
-
+    @Override
+    public String toString() {
+        return "PurchaseHeaderEntity{" +
+                "purchaseHeaderId=" + purchaseHeaderId +
+                ", purchaseNumber='" + purchaseNumber + '\'' +
+                ", purchaseDate=" + purchaseDate +
+                ", receptionDate=" + receptionDate +
+                ", purchaseFxRate=" + purchaseFxRate +
+                ", receptionFxRate=" + receptionFxRate +
+                ", supplierId=" + supplierId +
+                ", currencyId=" + currencyId +
+                ", statusId=" + statusId +
+                ", departmentId=" + departmentId +
+                ", userId=" + userId +
+                ", purchaseLineList=" + purchaseLineList +
+                ", supplier=" + supplier +
+                ", status=" + status +
+                ", currency=" + currency +
+                ", department=" + department +
+                ", user=" + user +
+                '}';
+    }
 }

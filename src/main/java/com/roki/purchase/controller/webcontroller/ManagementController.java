@@ -8,6 +8,7 @@ import com.roki.purchase.repository.BudgetLineRepository;
 import com.roki.purchase.repository.PurchaseHeaderRepository;
 import com.roki.purchase.repository.PurchaseLineRepository;
 import com.roki.purchase.repository.StatusRepository;
+import com.roki.purchase.service.EmailBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,9 @@ public class ManagementController {
 
     @Autowired
     private BudgetLineRepository budgetLineRepository;
+
+    @Autowired
+    private EmailBusinessService emailBusinessService;
 
     @GetMapping("/management/checked-list")
     public ModelAndView getAllCheckedPurchaseRequest() {
@@ -88,6 +92,9 @@ public class ManagementController {
         StatusEntity status = statusRepository.findByStatus("approved");
         purchaseHeader.setStatus(status);
         purchaseHeaderRepository.save(purchaseHeader);
+        String to = purchaseHeader.getUser().getEmail();
+        emailBusinessService.emailInitiatorNotification(to,purchaseHeader.getPurchaseNumber(), status.getStatus());
+
         return modelAndView;
     }
 
@@ -99,6 +106,8 @@ public class ManagementController {
         StatusEntity status = statusRepository.findByStatus("rejected");
         purchaseHeader.setStatus(status);
         purchaseHeaderRepository.save(purchaseHeader);
+        String to = purchaseHeader.getUser().getEmail();
+        emailBusinessService.emailInitiatorNotification(to,purchaseHeader.getPurchaseNumber(), status.getStatus());
         return modelAndView;
     }
 

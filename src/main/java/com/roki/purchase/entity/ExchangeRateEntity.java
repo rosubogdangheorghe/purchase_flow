@@ -1,10 +1,8 @@
 package com.roki.purchase.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "exchangeRates")
@@ -14,16 +12,16 @@ public class ExchangeRateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer exchangeRateId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate exchangeDate;
-
 
     private BigDecimal value;
 
+    private String currencyName;
 
-    @ManyToOne
-    @JoinColumn(name = "currencyId")
-    private CurrencyEntity currency;
+    private BigDecimal multiplier;
+
+
+    @OneToMany(mappedBy = "currency")
+    private List<PurchaseHeaderEntity> purchaseHeaderList;
 
 
     public Integer getExchangeRateId() {
@@ -33,15 +31,7 @@ public class ExchangeRateEntity {
     public void setExchangeRateId(Integer exchangeRateId) {
         this.exchangeRateId = exchangeRateId;
     }
-
-    public LocalDate getExchangeDate() {
-        return exchangeDate;
-    }
-
-    public void setExchangeDate(LocalDate exchangeDate) {
-        this.exchangeDate = exchangeDate;
-    }
-
+    
     public BigDecimal getValue() {
         return value;
     }
@@ -50,11 +40,27 @@ public class ExchangeRateEntity {
         this.value = value;
     }
 
-    public CurrencyEntity getCurrency() {
-        return currency;
+    public List<PurchaseHeaderEntity> getPurchaseHeaderList() {
+        return purchaseHeaderList;
     }
 
-    public void setCurrency(CurrencyEntity currency) {
-        this.currency = currency;
+    public void setPurchaseHeaderList(List<PurchaseHeaderEntity> purchaseHeaderList) {
+        this.purchaseHeaderList = purchaseHeaderList;
+    }
+
+    public String getCurrencyName() {
+        return currencyName;
+    }
+
+    public void setCurrencyName(String currencyName) {
+        this.currencyName = currencyName;
+    }
+
+    public BigDecimal getMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier(BigDecimal multiplier) {
+        this.multiplier = multiplier;
     }
 }

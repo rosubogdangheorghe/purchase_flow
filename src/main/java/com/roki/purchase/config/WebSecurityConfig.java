@@ -1,17 +1,17 @@
 package com.roki.purchase.config;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
-
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -23,20 +23,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.authorizeRequests().
                 antMatchers("/web/login-form","/webjars/**","/web/login","/css/**",
-                        "/js/**").permitAll();
+                        "/js/**","/images/**").permitAll();
 
-//        http.authorizeRequests().antMatchers("/web/dashboard/**").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers("/web/dashboard/**").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers("/web/management/**").hasAnyAuthority("MANAGER","ADMIN");
+        http.authorizeRequests().antMatchers("/web/accounting/**").hasAnyAuthority("ACCOUNTANT","ADMIN");
+        http.authorizeRequests().antMatchers("/web/purchase/**").hasAnyAuthority("USER","ADMIN");
+
         http.authorizeRequests().anyRequest().authenticated();
-        http.formLogin().loginPage("/web/login-form")    //url din methoda de showFormLogin
-                .loginProcessingUrl("/web/login")    //action din formular
+        http.formLogin().loginPage("/web/login-form")
+                .loginProcessingUrl("/web/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/web/main-page")
                 .failureUrl("/web/login-form");
 
         http.logout().logoutUrl("/web/logout");
+        http.exceptionHandling().accessDeniedPage("/web/login-form");
     }
-
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -45,8 +49,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void globalConfiguration(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder)
             throws Exception{
-
         auth.jdbcAuthentication().dataSource(this.dataSource).passwordEncoder(passwordEncoder);
-        System.out.println(passwordEncoder.encode("bogdan"));
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,37 +23,37 @@ public class PurchaseLineController {
     private PurchaseHeaderRepository purchaseHeaderRepository;
 
 
-    @GetMapping("/purchase-request/{purchaseHeaderId}")
+    @GetMapping("/purchase/purchase-request/{purchaseHeaderId}")
     public ModelAndView getAllPurchaseLines(@PathVariable Integer purchaseHeaderId) {
         ModelAndView modelAndView = new ModelAndView("/purchase/purchase-line/purchase-request-template");
         PurchaseHeaderEntity purchaseHeader = purchaseHeaderRepository.findById(purchaseHeaderId).get();
         modelAndView.addObject("purchaseHeaderObject",purchaseHeader);
         List<PurchaseLineEntity> purchaseLines = purchaseLineRepository.findAllByPurchaseHeader(purchaseHeader);
         modelAndView.addObject("purchaseLines",purchaseLines);
-        List<Double> purchaseLinesValue = new ArrayList<>();
-        for(PurchaseLineEntity purchaseLine : purchaseLines) {
-            purchaseLinesValue.add((double) Math.round(purchaseLine.getQuantity()*purchaseLine.getUnitPrice()*100)/100);
-        }
+
         modelAndView.addObject("addPurchaseLine",false);
-        modelAndView.addObject("purchaseLineObject",new PurchaseLineEntity());
         return modelAndView;
 
 
     }
 
-    @GetMapping("/purchase-line/add/{purchaseHeaderId}")
+    @GetMapping("/purchase/purchase-line/add/{purchaseHeaderId}")
     public ModelAndView addPurchaseLine(@PathVariable Integer purchaseHeaderId){
         ModelAndView modelAndView = new ModelAndView("/purchase/purchase-line/purchase-request-template");
 
         PurchaseHeaderEntity purchaseHeader = purchaseHeaderRepository.findById(purchaseHeaderId).get();
         modelAndView.addObject("purchaseHeaderObject",purchaseHeader);
+        List<PurchaseLineEntity> purchaseLines = purchaseLineRepository.findAllByPurchaseHeader(purchaseHeader);
+        if(!purchaseLines.isEmpty()) {
+            modelAndView.addObject("purchaseLines",purchaseLines);
+        }
 
         modelAndView.addObject("addPurchaseLine",true);
         modelAndView.addObject("purchaseLineObject",new PurchaseLineEntity());
 
         return modelAndView;
     }
-    @PostMapping("/purchase-line/save")
+    @PostMapping("/purchase/purchase-line/save")
     public ModelAndView savePurchaseLine(@ModelAttribute("purchaseLineObject") PurchaseLineEntity purchaseLine, HttpServletRequest request) {
 
         String string =   request.getParameter("purchaseHeaderId");
@@ -62,12 +61,12 @@ public class PurchaseLineController {
         PurchaseHeaderEntity purchaseHeader = purchaseHeaderRepository.findByPurchaseHeaderId(purchaseHeaderId);
         purchaseLine.setPurchaseHeader(purchaseHeader);
         purchaseLineRepository.save(purchaseLine);
-        ModelAndView modelAndView =new ModelAndView("redirect:/web/purchase-request/"+purchaseHeader.getPurchaseHeaderId());
+        ModelAndView modelAndView =new ModelAndView("redirect:/web/purchase/purchase-request/"+purchaseHeader.getPurchaseHeaderId());
 
         return modelAndView;
     }
 
-    @GetMapping("/purchase-line/edit/{purchaseHeaderId}/{purchaseLineId}")
+    @GetMapping("/purchase/purchase-line/edit/{purchaseHeaderId}/{purchaseLineId}")
     ModelAndView editPurchaseLine(@PathVariable Integer purchaseLineId, @PathVariable Integer purchaseHeaderId) {
 
         ModelAndView modelAndView = new ModelAndView("/purchase/purchase-line/purchase-request-template");
@@ -83,11 +82,11 @@ public class PurchaseLineController {
         return modelAndView;
 
     }
-    @GetMapping("/purchase-line/delete/{purchaseHeaderId}/{purchaseLineId}")
+    @GetMapping("/purchase/purchase-line/delete/{purchaseHeaderId}/{purchaseLineId}")
     ModelAndView deletePurchaseLine(@PathVariable Integer purchaseLineId, @PathVariable Integer purchaseHeaderId) {
 
         PurchaseHeaderEntity purchaseHeader = purchaseHeaderRepository.findById(purchaseHeaderId).get();
-        ModelAndView modelAndView = new ModelAndView("redirect:/web/purchase-request/"+purchaseHeader.getPurchaseHeaderId());
+        ModelAndView modelAndView = new ModelAndView("redirect:/web/purchase/purchase-request/"+purchaseHeader.getPurchaseHeaderId());
         modelAndView.addObject("purchaseHeaderObject",purchaseHeader);
         List<PurchaseLineEntity> purchaseLines = purchaseLineRepository.findAllByPurchaseHeader(purchaseHeader);
         modelAndView.addObject("purchaseLines",purchaseLines);

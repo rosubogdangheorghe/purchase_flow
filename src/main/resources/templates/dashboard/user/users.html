@@ -10,11 +10,12 @@
         <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
         <title>User List</title>
     </head>
 <body>
 
-    <div class="container">
+    <div class="container small">
         <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
         <h2>Users list</h2>
 
@@ -28,14 +29,10 @@
                         <th class="align-middle" scope="col">Last Name</th>
                         <th class="align-middle" scope="col">Email</th>
                         <th class="align-middle" scope="col">Enabled</th>
-    <!--                    <th class="align-middle" scope="col">Authority/Edit Authority</th>-->
+                        <th class="align-middle" scope="col">Authority</th>
                         <th class="align-middle" scope="col">Edit User</th>
                         <th class="align-middle" scope="col">User Details</th>
-    <!--                    <th class="align-middle" scope="col">Edit authority</th>-->
-    <!--                    <th class="align-middle" scope="col">Add authority</th>-->
-    <!--                    <th class="align-middle" scope="col">Disable</th>-->
-    <!--                    <th class="align-middle" scope="col">Enable</th>-->
-    <!--                    <th class="align-middle" scope="col">Password Reset</th>-->
+
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +43,8 @@
                         <td class="align-middle" th:text="${user.lastName}"></td>
                         <td class="align-middle" th:text="${user.email}"></td>
                         <td class="align-middle" th:text="${user.getEnabled()}"></td>
+                        <td class="align-middle" th:text="${user.authorityList[0]}" th:if="${not user.authorityList.isEmpty()}"></td>
+
                         <td><a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/user/edit/'+user.userId}}">Edit</a></td>
                         <td><a class="btn btn-success btn-sm btn-link align-middle" role="button" th:href="@{${'/web/user/list/'+user.userId}}">User Details</a></td>
                     </tr>

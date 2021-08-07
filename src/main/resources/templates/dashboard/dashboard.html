@@ -8,85 +8,45 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
         <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/css/dashboard.css">
         <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
-
         <title>Dashboard</title>
     </head>
 <body>
-<div class="container">
+<div class="container small">
     <div th:fragment="dashboard-menu">
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-            <div class="container-fluid">
+            <div class="container">
                 <a class="navbar-brand active" href="/web/dashboard">DashBoard Menu</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                Supplier Management
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/web/supplier/add">Add new Supplier</a>
-                                <a class="dropdown-item" href="/web/supplier/list">Supplier List</a>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/web/supplier/list">Supplier Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/web/department/list">Department Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/web/user/list">User Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/web/currency/list/">Currency Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/web/status/list">Status Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/web/budget-line/list">Budget Lines Management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Welcome: <span sec:authentication="name"></span></a>
 
-                            </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" href="#" id="departmentDrop"
-                               data-toggle="dropdown">
-                                Department Management
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/web/department/add">Create Department</a>
-                                <a class="dropdown-item" href="/web/department/list">Department List</a>
-
-                            </div>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#"><span sec:authentication="principal.authorities"></span></a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" href="#" id="userDrop" data-toggle="dropdown">
-                                User Management
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/web/user/add">Add user</a>
-                                <a class="dropdown-item" href="/web/user/list">User List</a>
-
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" href="#" id="currencyDrop" data-toggle="dropdown">
-                                Currency Management
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/web/currency/add">Create Currency</a>
-                                <a class="dropdown-item" href="/web/currency/list/">Currency List</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" href="#" id="statusDrop" data-toggle="dropdown">
-                                Status Management
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/web/status/add">Create Status</a>
-                                <a class="dropdown-item" href="/web/status/list">Status List</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" href="#" id="budgetDrop" data-toggle="dropdown">
-                                Budget Lines Management
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/web/budget-line/add">Create Budget Line</a>
-                                <a class="dropdown-item" href="/web/budget-line/list">Budget Lines List</a>
-                            </div>
-                        </li>
-
                         <li class="nav-item">
                             <a class="nav-link active" href="/web/main-page">Main Page</a>
                         </li>
@@ -103,68 +63,73 @@
 
 
 <div class="container">
-    <div class="card">
-        <!--            <img src="..." class="card-img-top" alt="...">-->
-
-        <div class="card-body">
-            <h5 class="card-title">Supplier Management</h5>
-            <p class="card-text">Menu for supplier Management.</p>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/supplier/add" class="card-link">Add
-                supplier</a></button>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/supplier/list" class="card-link">Suppliers
-                List</a></button>
+    <div class="row">
+        <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Supplier Management</h5>
+                        <p class="card-text">Menu for supplier Management.</p>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/supplier/add" class="card-link">Add
+                            supplier</a></button>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/supplier/list" class="card-link">Suppliers
+                            List</a></button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Department Management</h5>
+                        <p class="card-text">Menu for department Management.</p>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/department/add" class="card-link">Add
+                            department</a></button>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/department/list" class="card-link">Departments
+                            List</a></button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User Management</h5>
+                        <p class="card-text">Menu for User Management.</p>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/user/add" class="card-link">Add User</a>
+                        </button>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/user/list" class="card-link">Users List</a>
+                        </button>
+                    </div>
+                </div>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Department Management</h5>
-            <p class="card-text">Menu for department Management.</p>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/department/add" class="card-link">Add
-                department</a></button>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/department/list" class="card-link">Departments
-                List</a></button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">User Management</h5>
-            <p class="card-text">Menu for User Management.</p>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/user/add" class="card-link">Add User</a>
-            </button>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/user/list" class="card-link">Users List</a>
-            </button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Currency Management</h5>
-            <p class="card-text">Menu for Currency Management.</p>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/currency/add" class="card-link">Add Currency</a>
-            </button>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/currency/list" class="card-link">Currencies List</a>
-            </button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Status Management</h5>
-            <p class="card-text">Menu for Status Management.</p>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/status/add" class="card-link">Add Status</a>
-            </button>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/status/list" class="card-link">Statuses List</a>
-            </button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">BudgetLine Management</h5>
-            <p class="card-text">Menu for BudgetLine Management.</p>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/budget-line/add" class="card-link">Add Budget Line</a>
-            </button>
-            <button class="btn btn-sm btn-primary btn-link"><a href="/web/budget-line/list" class="card-link">Budget Lines List</a>
-            </button>
+        <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Currency Management</h5>
+                        <p class="card-text">Menu for Currency Management.</p>
+            <!--            <button class="btn btn-sm btn-primary btn-link"><a href="/web/currency/add" class="card-link">Add Currency</a>-->
+            <!--            </button>-->
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/currency/list" class="card-link">Currencies List</a>
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Status Management</h5>
+                        <p class="card-text">Menu for Status Management.</p>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/status/add" class="card-link">Add Status</a>
+                        </button>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/status/list" class="card-link">Statuses List</a>
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">BudgetLine Management</h5>
+                        <p class="card-text">Menu for BudgetLine Management.</p>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/budget-line/add" class="card-link">Add Budget Line</a>
+                        </button>
+                        <button class="btn btn-sm btn-primary btn-link"><a href="/web/budget-line/list" class="card-link">Budget Lines List</a>
+                        </button>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
+<div th:replace="/main-page::main-page-footer"></div>
 </body>
 </html>

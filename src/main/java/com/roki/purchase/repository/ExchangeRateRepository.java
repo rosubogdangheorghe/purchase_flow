@@ -5,5 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CurrencyExchangeRepository extends JpaRepository<ExchangeRateEntity,Integer> {
+public interface ExchangeRateRepository extends JpaRepository<ExchangeRateEntity,Integer> {
+
+
+    ExchangeRateEntity findByCurrencyName(String currencyName);
 }
