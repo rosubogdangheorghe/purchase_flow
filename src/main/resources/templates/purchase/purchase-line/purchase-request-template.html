@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+        <title>Purchase Header Form</title>
+        <script type="text/javascript" src="/js/js-functions.js"></script>
+    </head>
+<body>
+
+<div class="container">
+
+    <div th:insert="/main-page::main-page-menu"></div>
+
+    <div class="table table-sm">
+        <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <div th:replace="/models/purchase-header-source::purchase-header-head"></div>
+
+                        <th class="align-middle" scope="col" th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Promote</th>
+                        <th class="align-content-center" scope="col"
+                            th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Add line</th>
+                        <th class="align-content-center" scope="col"
+                            th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Clear line</th>
+                    </tr>
+
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <div th:replace="/models/purchase-header-source::purchase-header-data"></div>
+
+                        <td class="align-middle" th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">
+                            <a class="btn alert-success btn-sm btn-link align-middle" role="button"
+                               th:href="@{${'/web/purchase/purchase-header/promote/'+purchaseHeaderObject.purchaseHeaderId}}">Promote</a>
+                        </td>
+                        <td class="align-middle" th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">
+                            <a class="btn btn-primary btn-sm btn-link align-middle" role="button"
+                               th:href="@{${'/web/purchase/purchase-line/add/' + purchaseHeaderObject.purchaseHeaderId}}">Add line</a></td>
+                        <td class="align-middle" th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">
+                            <a class="btn btn-secondary btn-sm btn-link align-middle" role="button"
+                               th:href="@{${'/web/purchase/purchase-request/'+purchaseHeaderObject.purchaseHeaderId}}">Clear line</a></td>
+                    </tr>
+
+                 </tbody>
+        </table>
+
+    </div>
+    <h3> Purchase request Lines</h3>
+
+    <div class="table">
+
+        <table class="table table-striped table-hover align-middle">
+
+            <thead>
+                <tr>
+                        <div th:replace="/models/purchase-line-source::purchase-line-header"></div>
+
+                        <th class="align-middle" scope="col" th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Edit</th>
+                        <th class="align-middle" scope="col" th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Exit Edit Line</th>
+                        <th class="align-middle" scope="col" th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Delete</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr th:each="purchaseLine,index:${purchaseLines}">
+
+<!--                    <td class="align-middle" scope="row"th:text="${index.index+1}"></td>-->
+                    <div th:replace="/models/purchase-line-source::purchase-line-data"></div>
+<!--                    <td class="align-middle" scope="row" th:text="${purchaseLine.purchaseLineId}"></td>-->
+<!--                    <td class="align-middle" th:text="${purchaseLine.itemDescription}"></td>-->
+<!--                    <td class="align-middle" th:text="${purchaseLine.unitMeasure}"></td>-->
+<!--                    <td class="align-middle" th:text="${#numbers.formatDecimal(purchaseLine.quantity,1,'COMMA',2,'POINT')}"></td>-->
+<!--                    <td class="align-middle" th:text="${#numbers.formatDecimal(purchaseLine.unitPrice,1,'COMMA',2,'POINT')}"></td>-->
+<!--                    <td class="align-middle"  th:text="${#numbers.formatDecimal(purchaseLine.quantity*purchaseLine.unitPrice,1,'COMMA',2,'POINT')}"></td>-->
+<!--                    <td class="align-middle"  th:text="${#numbers.formatDecimal(purchaseLine.quantity*purchaseLine.unitPrice*purchaseHeaderObject.purchaseFxRate,1,'COMMA',2,'POINT')}"></td>-->
+
+                    <td class="align-middle"><a class="btn alert-success btn-sm btn-link align-middle" role="button"
+                                                th:href="@{${'/web/purchase/purchase-line/edit/'+purchaseHeaderObject.purchaseHeaderId+'/'+purchaseLine.purchaseLineId}}"
+                                                th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Edit Line</a></td>
+                    <td class="align-middle"><a class="btn btn-primary btn-sm btn-link align-middle"
+                           th:href="@{${'/web/purchase/purchase-request/'+purchaseHeaderObject.purchaseHeaderId}}"
+                           th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Exit Edit Line</a></td>
+
+                    <td class="align-middle"><a class="btn alert-success btn-sm btn-link align-middle" role="button"
+                                                th:href="@{${'/web/purchase/purchase-line/delete/'+purchaseHeaderObject.purchaseHeaderId+'/'+purchaseLine.purchaseLineId}}"
+                                                th:if="${purchaseHeaderObject.status.status.endsWith('progress')}">Delete Line</a></td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${addPurchaseLine.booleanValue()}">
+        <h4> Add Purchase Request Line</h4>
+        <form class="form-group" method="post" action="/web/purchase/purchase-line/save" th:object="${purchaseLineObject}">
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="hidden" name="purchaseLineId" id="purchaseLineId" th:field="*{purchaseLineId}">
+                </div>
+                <div class="form-group">
+                    <!--            <label for="purchaseHeaderId">Purchase Header Id</label>-->
+                    <input type="hidden" name="purchaseHeaderId" id="purchaseHeaderId"
+                           th:value="${purchaseHeaderObject.purchaseHeaderId}" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="itemDescription">Item description</label>
+                    <input class="form-control" type="text" name="itemDescription" id="itemDescription"
+                           th:field="*{itemDescription}">
+                </div>
+                <div class="form-group">
+                    <label for="unitMeasure">Unit measure</label>
+                    <select class="form-control" id="unitMeasure" th:field="*{unitMeasure}">
+                        <option value="">Select from the list</option>
+                        <option value="kg">kg</option>
+                        <option value="pcs">pcs</option>
+                        <option value="items">items</option>
+                        <option value="l">Liters</option>
+                        <option value="t">Tones</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="quantity">Quantity</label>
+                    <input class="form-control" onchange=setTwoNumberDecimal() type="number" name="quantity"
+                           id="quantity" min="0" step="0.01" th:field="*{quantity}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="unitPrice">Unit Price</label>
+                    <input class="form-control" onchange=setTwoNumberDecimal() type="number" name="unitPrice"
+                           id="unitPrice" min="0" step="0.01" th:field="*{unitPrice}">
+
+                </div>
+
+                <div class="form-group">
+                    <label for="purchaseLineValue" class="mb-2 mr-sm-2">Value:</label>
+                    <input type="number" onchange=setTwoNumberDecimal()
+                           onkeypress="valueCalculation()" name="purchaseLineValue"
+                           class="form-control purchaseLineValue"
+                           placeholder="0.00" min="0" step="0.01" id="purchaseLineValue">
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success btn-link">Save Data</button>
+        </form>
+
+
+    </div>
+    <button class="btn"><a class="nav-link-active" href="/web/main-page">Back To Main Page</a></button>
+    <button class="btn"><a class="nav-link-active" href="/web/purchase/purchase-header/add">Add new PR</a></button>
+    <button class="btn"><a class="nav-link-active" href="/web/purchase/purchase-header/in-progress-list">In progress PR List</a>
+    </button>
+    <button class="btn"><a class="nav-link-active" href="/web/purchase/purchase-header/issued-list">Issued PR List</a></button>
+</div>
+
+</body>
+</html>

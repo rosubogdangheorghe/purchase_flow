@@ -1,6 +1,8 @@
 package com.roki.purchase.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -13,9 +15,11 @@ public class SupplierEntity {
 
 
     @Column(length = 8)
-    private String supplierCode;
+//    @Pattern(regexp = "[0-9]*",message = "Code must contain only figures")
+//    @NotBlank(message = "Code can not be blanked")
+    private Integer supplierCode;
 
-
+    @Pattern(regexp ="[a-z,A-Z,0-9 -,&,!,.]*")
     private String supplierName;
 
     @Column(unique = true)
@@ -29,7 +33,7 @@ public class SupplierEntity {
 
     private String country;
 
-
+    @Email
     private String email;
 
     private String contactPerson;
@@ -49,11 +53,11 @@ public class SupplierEntity {
         this.supplierId = supplierId;
     }
 
-    public String getSupplierCode() {
+    public Integer getSupplierCode() {
         return supplierCode;
     }
 
-    public void setSupplierCode(String supplierCode) {
+    public void setSupplierCode(Integer supplierCode) {
         this.supplierCode = supplierCode;
     }
 
@@ -137,21 +141,5 @@ public class SupplierEntity {
         this.country = country;
     }
 
-    @Override
-    public String toString() {
-        return "SupplierEntity{" +
-                "supplierId=" + supplierId +
-                ", supplierCode='" + supplierCode + '\'' +
-                ", supplierName='" + supplierName + '\'' +
-                ", vatCode='" + vatCode + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", county='" + county + '\'' +
-                ", country='" + country + '\'' +
-                ", email='" + email + '\'' +
-                ", contactPerson='" + contactPerson + '\'' +
-                ", isBlocked=" + isBlocked +
-                ", purchaseHeaderList=" + purchaseHeaderList +
-                '}';
-    }
+
 }

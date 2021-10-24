@@ -1,0 +1,10 @@
+.card {
+    padding: 5px;
+    margin: 5px;
+    display: block;
+    width: 33rem;
+}
+#card-menu {
+    padding-top: 10px;
+    height: 80%;
+}

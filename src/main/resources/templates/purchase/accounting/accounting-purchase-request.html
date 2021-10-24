@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+        <title>Purchase Header Form</title>
+        <script type="text/javascript" src="/js/js-functions.js"></script>
+    </head>
+<body>
+<div class="container">
+    <div th:insert="/main-page::main-page-menu"></div>
+
+    <div class="table">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <div th:replace="/models/purchase-header-source::purchase-header-head"></div>
+                    <th class="align-middle" scope="col" th:if="${purchaseHeaderObject.status.status.endsWith('issued')}">
+                        Promote
+                    </th>
+                    <th class="align-content-center" scope="col" colspan="2"
+                        th:if="${purchaseHeaderObject.status.status.endsWith('issed')}">Perform Accounting check
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <div th:replace="/models/purchase-header-source::purchase-header-data"></div>
+
+                    <td class="align-middle" th:if="${purchaseHeaderObject.status.status.endsWith('issued')}"><a
+                            class="btn alert-success btn-sm btn-link align-middle" role="button"
+                            th:href="@{${'/web/accounting/promote/'+purchaseHeaderObject.purchaseHeaderId}}">Promote</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <h3> Purchase request Lines</h3>
+    <div class="table">
+        <table class="table table-striped table-hover align-middle">
+
+            <thead>
+            <tr>
+                <div th:replace="/models/purchase-line-source::purchase-line-header"></div>
+
+                <th class="align-middle" scope="col">Budgeted</th>
+                <th class="align-middle" scope="col">Budget Line</th>
+                <th class="align-middle" scope="col" th:if="${purchaseHeaderObject.status.status.endsWith('issued')}">
+                    Check
+                </th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr th:each="purchaseLine,index:${purchaseLines}">
+                <div th:replace="/models/purchase-line-source::purchase-line-data"></div>
+
+
+                <td class="align-middle" th:text="${purchaseLine.getIsBudgeted()}"></td>
+                <td class="align-middle" th:if="${purchaseLine.getBudgetLine() != null}"
+                    th:text="${purchaseLine.budgetLine.getBudgetLine()}"></td>
+
+                <td class="align-middle"><a class="btn alert-success btn-sm btn-link align-middle" role="button"
+                                            th:href="@{${'/web/accounting/accounting-purchase-line/edit/'+purchaseHeaderObject.purchaseHeaderId+'/'+purchaseLine.purchaseLineId}}"
+                                            th:if="${purchaseHeaderObject.status.status.endsWith('issued')}">Accounting
+                    Check</a></td>
+
+            </tr>
+
+            </tbody>
+        </table>
+
+
+        <div th:if="${accountingCheckForm.booleanValue()}">
+            <h4> Add Purchase Request Line</h4>
+            <form class="form-group" method="post" action="/web/accounting/accounting-purchase-line/save"
+                  th:object="${purchaseLineObject}">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="hidden" name="purchaseLineId" id="purchaseLineId" th:field="*{purchaseLineId}">
+                    </div>
+                    <div class="form-group">
+                        <!--            <label for="purchaseHeaderId">Purchase Header Id</label>-->
+                        <input type="hidden" name="purchaseHeaderId" id="purchaseHeaderId"
+                               th:value="${purchaseHeaderObject.purchaseHeaderId}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="itemDescription">Item description</label>
+                        <input class="form-control" type="text" name="itemDescription" id="itemDescription"
+                               th:field="*{itemDescription}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="unitMeasure">Unit measure</label>
+                        <input type="text" class="form-control" id="unitMeasure" th:field="*{unitMeasure}"
+                               readonly="readonly">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="quantity">Quantity</label>
+                        <input class="form-control" type="number" name="quantity" id="quantity"
+                               onload=setTwoNumberDecimal() min="0" th:field="*{quantity}" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="unitPrice">Unit Price</label>
+                        <input class="form-control" type="number" onload=setTwoNumberDecimal() name="unitPrice"
+                               id="unitPrice" min="0" th:field="*{unitPrice}" readonly="readonly">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="purchaseLineValue" class="mb-2 mr-sm-2">Value:</label>
+                        <input type="number" onload=setTwoNumberDecimal()
+                               th:value="${purchaseLineObject.quantity}*${purchaseLineObject.unitPrice}"
+                               name="purchaseLineValue" class="form-control" id="purchaseLineValue" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="isBudgeted">Is budgeted</label>
+                        <input class="form-control" type="text" name="isBudgeted" id="isBudgeted"
+                               th:field="*{isBudgeted}">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budgetLine">Budget Line</label>
+                        <select class="form-control" id="budgetLine" th:field="*{budgetLine}">
+                            <option value="">Select from the list</option>
+                            <option th:each="budgetLine:${budgetLines}" th:value="${budgetLine.budgetLineId}"
+                                    th:text="${budgetLine.budgetLine}"></option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success btn-link">Save Data</button>
+                <button class="btn btn-primary btn-link"
+                        th:href="@{${'/web/accounting/accounting-purchase-request/'+purchaseHeaderObject.purchaseHeaderId}}">
+                    Back
+                </button>
+            </form>
+
+
+        </div>
+
+
+        <button class="btn btn-sm btn-primary btn-link"><a class="card-link" href="/web/main-page">Back To Main Page</a>
+        </button>
+        <button class="btn btn-sm btn-primary btn-link"><a href="/web/accounting/issued-list" class="card-link">To check
+            PRs List</a></button>
+        <button class="btn btn-sm btn-primary btn-link"><a href="/web/accounting/checked-list" class="card-link">Checked
+            PRs List</a></button>
+    </div>
+
+</div>
+</body>
+</html>

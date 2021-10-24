@@ -1,14 +1,11 @@
 package com.roki.purchase.entity;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.Date;
 import java.util.List;
-
 @Entity
 @Table(name="users")
 public class UserEntity {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +33,10 @@ public class UserEntity {
 
     @OneToMany(mappedBy ="user")
     private List<PurchaseHeaderEntity> purchaseHeaderList;
+
+    @OneToMany(mappedBy = "user")
+    private List<DepartmentEntity> departmentsList;
+
 
     public Integer getUserId() {
         return userId;
@@ -117,6 +118,13 @@ public class UserEntity {
         this.passwordChangeTime = passwordChangeTime;
     }
 
+    public List<DepartmentEntity> getDepartmentsList() {
+        return departmentsList;
+    }
+
+    public void setDepartmentsList(List<DepartmentEntity> departmentsList) {
+        this.departmentsList = departmentsList;
+    }
 
     public boolean isCredentialsNonExpired() {
         if(this.passwordChangeTime == null) {
@@ -134,6 +142,7 @@ public class UserEntity {
             return false;
         }
     }
+
 
 
     @Override

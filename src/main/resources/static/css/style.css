@@ -1,8 +1,22 @@
 
-.card {
-    padding: 5px;
-    margin: 5px;
-}
 body {
-    background: aquamarine;
+    background: aquamarine url("../images/backgroundMov.jpg") no-repeat fixed center top;
+    background-size: cover;
+    width: 100%;
+    height: auto;
+
 }
+#footer {
+    overflow: hidden;
+    padding: 15px;
+    margin: 15px auto 15px auto;
+    left: 20%;
+    bottom: 0;
+    position: absolute;
+    color: darkorange;
+    text-align: center;
+    background: bisque;
+}
+
+
+

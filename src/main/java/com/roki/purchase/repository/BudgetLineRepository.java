@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BudgetLineRepository extends JpaRepository<BudgetLineEntity,Integer> {
+
+    BudgetLineEntity findByBudgetLine(String budgetLine);
 }

@@ -1,4 +1,4 @@
-package com.roki.purchase.data;
+package com.roki.purchase.data_pagination;
 
 import com.roki.purchase.entity.SupplierEntity;
 
@@ -7,18 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResponseData {
+public class SuppliersPaginationData {
 
-    private final List<SupplierEntity> suppliers;
-    private final Map<String, Integer> page;
+    private List<SupplierEntity> suppliers;
+    private Map<String, Integer> page;
 
-    public ResponseData(final List<SupplierEntity> suppliers, final Map<String, Integer> page) {
+    public SuppliersPaginationData( List<SupplierEntity> suppliers, Map<String, Integer> page) {
         this.suppliers = new ArrayList<>(suppliers);
         this.page = new HashMap<>(page);
     }
 
-    public static ResponseData create(final List<SupplierEntity> suppliers, final Map<String, Integer> page) {
-        return new ResponseData(suppliers, page);
+    public static SuppliersPaginationData create( List<SupplierEntity> suppliers, Map<String, Integer> page) {
+        return new SuppliersPaginationData(suppliers, page);
     }
 
     public List<SupplierEntity> getSuppliers() {
@@ -31,7 +31,7 @@ public class ResponseData {
 
     @Override
     public String toString() {
-        return "ResponseData{" +
+        return "SuppliersPaginationData{" +
                 "suppliers=" + suppliers +
                 ", page=" + page +
                 '}';

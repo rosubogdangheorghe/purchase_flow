@@ -6,27 +6,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
     <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
     <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/login.js"></script>
     <title>Login Form</title>
 </head>
-<body>
-    <div class="container">
-            <h2>User Login Form</h2>
-        <form class="form-control" action="/web/login" method="post">
-            <div class="form-group" >
-                <label for="username">Username</label>
-                <input type="text"  class="form-control"  name="username" placeholder="username" id="username">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" name="password" placeholder="password" id="password">
-            </div>
-            <button type="submit" class="btn btn-success">Login</button>
-        </form>
+<body id="login">
+<div class="container">
+<!--    <h2>User Login Form</h2>-->
+    <button id="button"  class="btn btn-sm btn-primary" onclick="document.getElementById('loginDetails').style.display='block'" style="width:auto;">Login</button>
 
+    <div id="loginDetails" class="modal">
+        <form class="form-control modal-content animate" action="/web/login" method="post">
+            <div class="imgContainer">
+                <span onclick="document.getElementById('loginDetails').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <img src="/images/login-logo.jpg" alt="Logo" class="logo" width="200px" height="120px">
+            </div>
+            <div class="container">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" name="username" placeholder="username" id="username" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="password" id="password" autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn btn-success">Login</button>
+            </div>
+
+        </form>
     </div>
+</div>
 </body>
 </html>

@@ -14,7 +14,7 @@
     </head>
 <body>
 
-<div class="container">
+<div class="container small">
     <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
     <h2>Departments List</h2>
     <div class="table">
@@ -34,16 +34,14 @@
                 <td class="align-middle" scope="row" th:text="${department.departmentId}"></td>
                 <td class="align-middle" th:text="${department.departmentCode}"></td>
                 <td class="align-middle" th:text="${department.departmentName}"></td>
-                <td class="align-middle" th:text="${department.departmentManager}"></td>
-                <td class="align-middle" th:text="${department.email}"></td>
+                <td class="align-middle" th:text="${department.user.firstName} +' '+${department.user.lastName}"></td>
+                <td class="align-middle" th:text="${department.user.email}"></td>
                 <td> <a class="btn btn-primary btn-sm btn-link" role="button" th:href="@{${'/web/department/edit/'+department.departmentId}}">Edit</a></td>
-<!--                <td><a class="btn btn-danger btn-sm btn-link" role="button" th:href="@{${'/web/department/block/'+department.departmentId}}">Block</a></td>-->
-<!--                <td><a class="btn btn-success btn-sm btn-link" role="button" th:href="@{${'/web/department/unBlock/'+department.departmentId}}">UnBlock</a></td>-->
             </tr>
             </tbody>
         </table>
-        <button class="btn"><a class="nav-link active"  href="/web/dashboard">Back To Dashboard</a></button>
-        <button class="btn"><a class="nav-link active"  href="/web/department/add">Add new department</a></button>
+        <button class="btn"><a class="nav-link-active"  href="/web/dashboard">Back To Dashboard</a></button>
+        <button class="btn"><a class="nav-link-active"  href="/web/department/add">Add new department</a></button>
     </div>
 </div>
 </body>

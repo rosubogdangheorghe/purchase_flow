@@ -1,6 +1,5 @@
 package com.roki.purchase.controller.webcontroller;
 
-import com.roki.purchase.component.PasswordExpirationFilter;
 import com.roki.purchase.entity.UserEntity;
 import com.roki.purchase.repository.UserRepository;
 import com.roki.purchase.service.EmailBusinessService;
@@ -46,56 +45,11 @@ public class PasswordController {
         return modelAndView;
     }
 
-//    @PostMapping("/password/change_password")
-//    public ModelAndView changePassword( HttpServletRequest request,
-//                                       HttpServletResponse response, RedirectAttributes attributes
-//                                       ) throws ServletException {
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//
-//        Optional<User> user = PasswordExpirationFilter.getLoggedInUser();
-//        if(user.isPresent()) {
-//            UserEntity userEntity = userRepository.findByUsername(user.get().getUsername());
-//            modelAndView.addObject("passwordObject", userEntity);
-//            System.out.println(userEntity);
-//            System.out.println("din methoda save");
-//            String oldPassword = request.getParameter("oldPassword");
-//            String newPassword = request.getParameter("newPassword");
-//            System.out.println(oldPassword);
-//            System.out.println(newPassword);
-//            if (oldPassword.equals(newPassword)) {
-//                modelAndView.addObject("message", "Your new password must be different than the old one.");
-//                modelAndView.addObject("/dashboard/user/password-change-form");
-//                return modelAndView;
-//            }
-//            if (!passwordEncoder.matches(oldPassword, userEntity.getPassword())) {
-//                modelAndView.addObject("message", "Your old password is incorrect.");
-//                modelAndView.addObject("/dashboard/user/password-change-form");
-//                return modelAndView;
-//            } else {
-//                newPassword = passwordEncoder.encode(newPassword);
-//                userEntity.setPassword(newPassword);
-//                userRepository.save(userEntity);
-////            userService.changePassword(userEntity,newPassword);
-//                request.logout();
-//                attributes.addFlashAttribute("message", "You have changed your password successfully. Please login again");
-//                return modelAndView.addObject("redirect:/web/login-form");
-//            }
-//
-//        }
-//        return modelAndView.addObject("redirect:/web/login-form");
-//    }
-//    @GetMapping("/password/change_password")
-//    public String showChangePasswordForm(Model model) {
-//        model.addAttribute("pageTitle", "Change Expired Password");
-//        return "/dashboard/user/password-change-form";
-//    }
-
 
     @PostMapping("/password/change_password")
     public String processChangePassword(Model model, HttpServletRequest request,
                                         HttpServletResponse response, RedirectAttributes attributes) throws ServletException {
-        Optional<User> user = PasswordExpirationFilter.getLoggedInUser();
+        Optional<User> user = userService.getLoggedInUser();
         if(user.isPresent()) {
             UserEntity userEntity = userRepository.findByUsername(user.get().getUsername());
             String oldPassword = request.getParameter("oldPassword");
@@ -127,9 +81,9 @@ public class PasswordController {
         ModelAndView modelAndView = new ModelAndView("redirect:/web/user/list");
         Optional<UserEntity> userEntity = userRepository.findById(userId);
         if (userEntity.isPresent()) {
-            userEntity.get().setPassword(passwordEncoder.encode("initinit2021"));
+            userEntity.get().setPassword(passwordEncoder.encode("init"));
             userEntity.get().setPasswordChangeTime(null);
-            emailBusinessService.passwordResetEmail("initinit2021",userEntity.get().getUsername(),userEntity.get().getEmail());
+            emailBusinessService.passwordResetEmail("init",userEntity.get().getUsername(),userEntity.get().getEmail());
             userRepository.save(userEntity.get());
 
         }

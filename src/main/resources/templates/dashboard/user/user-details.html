@@ -13,7 +13,7 @@
     <title>User details</title>
   </head>
 <body>
-    <div class="container">
+    <div class="container small">
           <div th:insert="/dashboard/dashboard::dashboard-menu"></div>
           <h2>User Details</h2>
          <div class="table">
@@ -58,16 +58,29 @@
                             <a class="btn btn-success btn-sm btn-link align-middle" role="button" th:href="@{${'/web/user/enable/'+userDetails.userId}}">Enable</a>
                         </td>
                     </tr>
-                    <tr>
+                    <tr th:each = "authority:${userDetails.authorityList}" th:if="${not userAuthorities.isEmpty()}">
                         <td class="align-middle">Authorities</td>
-                        <td class="align-middle" th:each = "authority:${userDetails.authorityList}" style="display: block; align-content: center">
+                        <td class="align-middle" style="display: block; align-content: center">
                               <span th:text="${authority.authority}"></span>
+                            <a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/edit/'+userDetails.userId + '/'+authority.authorityId}}">Edit authority</a>
+                            <a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/delete/'+authority.authorityId}}">Delete authority</a>
+                            <a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/add/'+userDetails.userId}}">Add Authority</a>
                         </td>
-                        <td class="align-middle" th:each = "authority:${userDetails.authorityList}">
-                             <p><a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/edit/'+userDetails.userId + '/'+authority.authorityId}}">Edit authority</a></p>
-                             <p><a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/delete/'+authority.authorityId}}">Delete authority</a></p>
-                             <p><a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/add/'+userDetails.userId}}">Add Authority</a></p>
-                        </td>
+
+<!--                        <td class="align-middle" th:each = "authority:${userDetails.authorityList}" th:if="${not userAuthorities.isEmpty()}" style="display:inline-list-item">-->
+<!--                                <a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/edit/'+userDetails.userId + '/'+authority.authorityId}}">Edit authority</a>-->
+<!--                                 <a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/delete/'+authority.authorityId}}">Delete authority</a>-->
+<!--                                 <a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/add/'+userDetails.userId}}">Add Authority</a>-->
+
+<!--                        </td>-->
+                        <tr th:if="${userAuthorities.isEmpty()}">
+                             <td class="align-middle">Authorities</td>
+                             <td class="align-middle"></td>
+                             <td class="align-middle" >
+                                <p><a class="btn btn-primary btn-sm btn-link align-middle" role="button" th:href="@{${'/web/authority/add/'+userDetails.userId}}">Add Authority</a></p>
+                            </td>
+                         </tr>
+
 
                     </tr>
                     <tr>
