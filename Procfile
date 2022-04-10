@@ -1,1 +1,1 @@
-web:  java $JAVA_OPTS -cp target/classes:target/dependency/* com.roki.purchase.App
+web: java -jar target/roki-1.0-SNAPSHOT.jar
